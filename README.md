@@ -4,7 +4,7 @@
 
 *Sample Routes*
 
-    /sample-api/audios     GET		  get all audio metadatas
+    /sample-api/audios     GET		get all audio metadatas
     /sample-api/audios	   POST	  	create an audio metadata
     /sample-api/:audio_id  GET      get a single audio metadata	
     /sample-api/:audio_id  PUT      update audio metadata with matched id with new info
