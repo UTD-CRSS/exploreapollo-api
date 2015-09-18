@@ -1,10 +1,13 @@
 // Sample Routes
-//		/sample-api/audios     GET		get all audio metadatas
-//		/sample-api/audios	   POST		create an audio metadata
+//		/sample-api/audio      GET		get all audio metadatas
+//		/sample-api/audio	   POST		create an audio metadata
 //		/sample-api/:audio_id  GET      get a single audio metadata	
 //		/sample-api/:audio_id  PUT      update audio metadata with matched id with new info
 //		/sample-api/:audio_id  DELETE   delete audio metadata with matched id from DB
 //
+//      /sample-api/newUserSetup  POST   create new user in db
+//      /sample-api/users         GET    return all users in db
+//      /sample-api/authenticate  POST   authenticate usr/pwd and return token if success
 
 
 
@@ -15,17 +18,21 @@
 var express    = require('express');        
 var app        = express();                 
 var bodyParser = require('body-parser');
+var jwt        = require('jsonwebtoken');
 var audio 	   = require('./models/audio');
+var config     = require('./config');
+var User       = require('./models/user');
 
 // import mongoose pkg and connect to designated DB
 var mongoose   = require('mongoose');
-mongoose.connect('mongodb://test:test@ds047468.mongolab.com:47468/audiometadata'); 
+mongoose.connect(config.database); 
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.set('customKey',config.key); // set key
 var port = 4060;        // set our port 
 
 // ROUTES FOR OUR API
@@ -33,8 +40,7 @@ var port = 4060;        // set our port
 var router = express.Router();              // initialize and get an instance of the express Router
 
 // REGISTER ROUTES -------------------------------
-app.use('/sample-api', router);
-app.use('/',router);
+app.use(router); // default ./
 
 
 // routes use-cases
@@ -50,7 +56,7 @@ router.route('/')
     	res.json({ message: 'Default path - response from server' });   
 	});
 
-router.route('/audio')
+router.route('/sample-api/audio')
     // create audio info
     .post(function(req, res) {
         var myAudio = new audio();      
@@ -72,7 +78,7 @@ router.route('/audio')
         });
     });
 
-router.route('/audio/:audio_id')
+router.route('/sample-api/audio/:audio_id')
     // get the audio with given id 
     .get(function(req, res) {
         audio.findById(req.params.audio_id, function(err, tmpAudio) {
@@ -82,7 +88,6 @@ router.route('/audio/:audio_id')
     })
     // update audio info for id
     .put(function(req, res) {
-        // use our bear model to find the bear we want
         audio.findById(req.params.audio_id, function(err, tmpAudio) {
             if (err){ res.send(err);}
             else {
@@ -103,6 +108,61 @@ router.route('/audio/:audio_id')
             else { res.json({ message: 'Successfully deleted' });}
         });
     });   
+
+router.route('/sample-api/newUserSetup')
+    .post(function(req,res){
+        var myNewUser = new User();      
+        myNewUser.name = req.body.name;  
+        myNewUser.password = req.body.password;
+        myNewUser.admin = false;
+        // save it in DB
+        myNewUser.save(function(err) {
+            if (err)    {res.send(err);}
+            else {
+                res.json({ message: 'New user created!' });
+            }   
+        });
+
+    });
+router.route('/sample-api/users')
+    .get(function(req,res){        
+        // save it in DB
+        User.find(function(err, allUsers) {
+            if (err) { res.send(err); }
+            else {  res.json(allUsers);}
+        });
+
+    });
+router.route('/sample-api/authenticate')
+    .post(function(req,res){
+        // find the user
+        User.findOne({name: req.body.name}, function(err, user) {
+            if (err) throw err;
+            if (!user) {
+                res.json({ success: false, message: 'User not found.'});
+            } 
+            else { // user found
+                // check if password matches
+                if (user.password != req.body.password) {
+                    res.json({ success: false, message: 'Wrong password.' });
+                } 
+                else {
+                // if user is found and password is right
+                // create a token
+                var token = jwt.sign(user, app.get('customKey'), {
+                    expiresInMinutes: 600 // expires in 10 hours
+                });
+
+                // return the information including token as JSON
+                res.json({
+                    success: true,
+                    message: 'Authentication success. Token created',
+                    token: token
+                });
+                }   
+            }
+        });
+    })            
 // more routes for our API will happen here
 
 // START THE SERVER
