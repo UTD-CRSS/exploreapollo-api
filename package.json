@@ -1,6 +1,13 @@
 {
-    "name": "webserver-api",
+    "name": "API.exploreapollo.org",
     "main": "server.js",
+    "private": true,
+    "scripts": {
+      "start": "node server.js"
+    },
+    "engines": {
+      "node": ">=4.0.0"
+    },
     "dependencies": {
         "express": "~4.0.0",
         "mongoose": "~3.6.13",
