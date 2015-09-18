@@ -42,13 +42,39 @@ var router = express.Router();              // initialize and get an instance of
 // REGISTER ROUTES -------------------------------
 app.use(router); // default ./
 
-
+var jsonTokenEnabled = true;
 // routes use-cases
 var count = 0;
 router.use(function(req, res, next) {
 	count++;
     console.log('Request '+ count +' received');
-    next(); // go to the next routes
+
+    if (!jsonTokenEnabled) next();
+    else {
+        // check header or url parameters or post parameters for token
+        var token = req.headers['x-access-token'];
+
+        // decode token
+        if (token) {
+            jwt.verify(token, app.get('customKey'), function(err, decoded) {      
+                if (err) {
+                    return res.json({ success: false, message: 'Failed to authenticate token.' });    
+                } else {
+                    // if everything is good, save to request for use in other routes whichever uses it
+                    req.decoded = decoded;    
+                    console.log("Authentication success");
+                    next(); // only if token is correct
+                }
+            });
+        } else {
+            // if there is no token
+            // return an error
+            return res.status(403).send({ 
+                success: false, 
+                message: 'No token provided.' 
+            });    
+        }
+    }
 });
 
 router.route('/')
@@ -156,7 +182,7 @@ router.route('/sample-api/authenticate')
                 // return the information including token as JSON
                 res.json({
                     success: true,
-                    message: 'Authentication success. Token created',
+                    message: 'Authentication success. Token created/found',
                     token: token
                 });
                 }   
