@@ -174,8 +174,8 @@ router.route('/sample-api/authenticate')
                 } 
                 else {
                 // if user is found and password is right
-                // create a token
-                var token = jwt.sign(user, app.get('customKey'), {
+                // create a token - create a new temp object and pass in user name and admin flag - no pwd
+                var token = jwt.sign({user:user.name,admin:user.admin}, app.get('customKey'), {
                     expiresInMinutes: 600 // expires in 10 hours
                 });
 
