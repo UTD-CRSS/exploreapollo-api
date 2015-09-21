@@ -1,7 +1,4 @@
-# API.exploreapollo.org
-
-
-# Apollo Project API Web Server App 
+# Apollo Project - API Web Server App 
 
 #
 
@@ -23,7 +20,7 @@ For the testing purpose, I'm using Postman to send request/receive response from
 
   - Open Postman and from here you should be able to play around with sending request/receive response from server
     
-# Sample api for web server**
+# Sample api for web server
 
 **Sample Routes**
 
