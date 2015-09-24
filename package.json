@@ -9,9 +9,9 @@
       "node": ">=4.0.0"
     },
     "dependencies": {
-        "express": ">=4.5",
-        "mongoose": "~3.6.13",
-        "body-parser": "~1.0.1",
+        "express": ">4.5.0",
+        "mongoose": "~4.1.8",
+        "body-parser": "~1.14.0",
         "jsonwebtoken": "~5.0.5" 
     }
 }
