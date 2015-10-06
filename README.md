@@ -1,6 +1,10 @@
 # exploreapollo.org-schema
 Database management for exploreapollo.org
 
+## Database 
+
+All migrations should be run against Postgres 9.4
+
 ## Domains
 
 ### `reasonable_string`
@@ -19,6 +23,7 @@ field | domain | constraints
 --- | --- | ---
 name | `reasonable_string` | 0 < length <= 254
 email | `reasonable_string` | 0 < length <= 254
-password | TEXT
+password | [TEXT][]
 
 [email_max]: http://www.rfc-editor.org/errata_search.php?rfc=3696&eid=1690
+[TEXT]: http://www.postgresql.org/docs/9.4/static/datatype-character.html
