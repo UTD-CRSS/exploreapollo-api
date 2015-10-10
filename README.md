@@ -32,7 +32,7 @@ For the testing purpose, I'm using Postman to send request/receive response from
     
     /sample-api/newUserSetup  POST   create new user in db
     /sample-api/users         GET    return all users in db
-    /sample-api/authenticate  POST   authenticate usr/pwd and return token if success
+    /authenticate             POST   authenticate usr/pwd and return token if success
     
  
 

@@ -1,4 +1,4 @@
 module.exports = {
     'key': 'utd-crss',
-    'database': 'mongodb://test:test@ds053728.mongolab.com:53728/crsssampledatabase'
+    'database': 'postgres://apoadmin:apoadmin@sampleapollo.cccnh9pw1gdi.us-west-2.rds.amazonaws.com:5432/apollo'
 };

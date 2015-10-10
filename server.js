@@ -1,13 +1,13 @@
 // Sample Routes
-//		/sample-api/audio      GET		get all audio metadatas
-//		/sample-api/audio	   POST		create an audio metadata
-//		/sample-api/:audio_id  GET      get a single audio metadata	
-//		/sample-api/:audio_id  PUT      update audio metadata with matched id with new info
-//		/sample-api/:audio_id  DELETE   delete audio metadata with matched id from DB
+//		/sample-api/audio            GET	  get all audio metadatas
+//		/sample-api/audio	         POST	  create an audio metadata
+//		/sample-api/audio/:audio_id  GET      get a single audio metadata	
+//		/sample-api/audio/:audio_id  PUT      update audio metadata with matched id with new info
+//		/sample-api/audio/:audio_id  DELETE   delete audio metadata with matched id from DB
 //
 //      /sample-api/newUserSetup  POST   create new user in db
 //      /sample-api/users         GET    return all users in db
-//      /sample-api/authenticate  POST   authenticate usr/pwd and return token if success
+//      /authenticate             POST   authenticate usr/pwd and return token if success
 
 
 
@@ -19,13 +19,10 @@ var express    = require('express');
 var app        = express();                 
 var bodyParser = require('body-parser');
 var jwt        = require('jsonwebtoken');
-var audio 	   = require('./models/audio');
 var config     = require('./config');
-var User       = require('./models/user');
+var pg = require('pg');
+var conString = config.database;
 
-// import mongoose pkg and connect to designated DB
-var mongoose   = require('mongoose');
-mongoose.connect(config.database); 
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -42,10 +39,11 @@ var router = express.Router();              // initialize and get an instance of
 // REGISTER ROUTES -------------------------------
 app.use(router); // default ./
 
-var jsonTokenEnabled = true;
+var jsonTokenEnabled = false;
 // routes use-cases
 var count = 0;
-router.use(function(req, res, next) {
+// set up authentication 
+router.use('/sample-api/',function(req, res, next) {
 	count++;
     console.log('Request '+ count +' received');
 
@@ -79,117 +77,178 @@ router.use(function(req, res, next) {
 
 router.route('/')
 	.get(function(req, res) {
-    	res.json({ message: 'Default path - response from server' });   
+    	return res.json({ message: 'Default path - response from server' });   
 	});
 
+// 1. /sample-api/audio route
 router.route('/sample-api/audio')
     // create audio info
-    .post(function(req, res) {
-        var myAudio = new audio();      
-        myAudio.name = req.body.name;  
-        myAudio.ET = Math.floor(Math.random()*100);
-        // save it in DB
-        myAudio.save(function(err) {
-            if (err)	{res.send(err);}
+    .post(function(req, res) { 
+        if (req.body.name ==""||req.body.name ==null) 
+            return res.json("Input field is empty or not present. Please try again");   
+        var temp_name = req.body.name;  
+        var temp_et = Math.floor(Math.random()*1000);
+        // insert it to DB
+        pg.connect(conString, function(err, client, done) {
+            if (err) return res.json("Error inserting row "+JSON.stringify(err));
             else {
-            	res.json({ message: 'Audio Metadata created!' });
-            }	
-        });
+                client.query("INSERT INTO Audio(name,et) VALUES($1, $2)",[temp_name,temp_et])
+                    .on("end",function(result){
+                        done(); console.log(JSON.stringify(result));
+                        return res.json((result.rowCount ==0)?"Create new audio fail. Please try again":"Insert success");   
+
+                    });
+            }
+        });         
     })
     // get all audios
     .get(function(req, res) {
-        audio.find(function(err, tmpAudio) {
-            if (err) { res.send(err); }
-            else {  res.json(tmpAudio);}
+        pg.connect(conString, function(err, client, done) {
+            if (err) return res.json("Error fetching audio rows "+JSON.stringify(err));
+            else {
+                var results =[];
+                var temp_query = client.query("SELECT * FROM Audio ORDER BY id ASC");
+                temp_query.on("row",function(row){
+                    results.push(row);        
+                });
+                temp_query.on("end",function(){
+                    done();
+                    return res.json(results);         
+                });
+            }
         });
     });
 
+// 2. /sample-api/audio/id route
 router.route('/sample-api/audio/:audio_id')
     // get the audio with given id 
     .get(function(req, res) {
-        audio.findById(req.params.audio_id, function(err, tmpAudio) {
-            if (err) { res.send(err);  }
-            else {	res.json(tmpAudio);}
+        pg.connect(conString, function(err, client, done) {
+            if (err) return res.json("Error fetching audio row "+JSON.stringify(err));
+            else {
+                var result ="";
+                var temp_query = client.query("SELECT * FROM Audio WHERE id=($1)",[parseInt(req.params.audio_id)]);
+                temp_query.on("row",function(row){
+                    result = row;        
+                });
+                temp_query.on("end",function(){
+                    done(); 
+                    return res.json((result=="")?"No row found with given id":result);         
+                });
+            }
         });
     })
     // update audio info for id
-    .put(function(req, res) {
-        audio.findById(req.params.audio_id, function(err, tmpAudio) {
-            if (err){ res.send(err);}
+    .put(function(req, res) {        
+        if (req.body.name ==""||req.body.et==""||req.body.name ==null||req.body.et==null) 
+            return res.json("At least one input field is empty or not present. Please try again");
+        var newName = req.body.name;
+        var newEt = parseInt(req.body.et); 
+        pg.connect(conString, function(err, client, done) {
+            if (err) return res.json("Error updating audio row "+JSON.stringify(err));
             else {
-            	tmpAudio.name = req.body.name;  // update audio info
-            	tmpAudio.ET = req.body.ET;
-            	// save the audio info
-            	tmpAudio.save(function(err) {
-               		if (err) { res.send(err); }
-               		else { res.json({ message: 'Audio info updated' });}
-            	});
-            }	
+                var temp_query = client.query("UPDATE Audio SET name=($1), et=($2) WHERE id=($3)",[newName,newEt,parseInt(req.params.audio_id)]);
+                temp_query.on("end",function(result){
+                    done(); console.log(JSON.stringify(result)); 
+                    return res.json((result.rowCount ==0)?"Row id not found":"Update row success");         
+                });
+            }
         });
     })
     // delete audio info from db 
     .delete(function(req, res) {
-        audio.remove({ _id: req.params.audio_id }, function(err, tmpAudio) {
-            if (err) {res.send(err);}
-            else { res.json({ message: 'Successfully deleted' });}
-        });
-    });   
-
-router.route('/sample-api/newUserSetup')
-    .post(function(req,res){
-        var myNewUser = new User();      
-        myNewUser.name = req.body.name;  
-        myNewUser.password = req.body.password;
-        myNewUser.admin = false;
-        // save it in DB
-        myNewUser.save(function(err) {
-            if (err)    {res.send(err);}
+        pg.connect(conString, function(err, client, done) {
+            if (err) return res.json("Error deleting audio row "+JSON.stringify(err));
             else {
-                res.json({ message: 'New user created!' });
-            }   
-        });
-
-    });
-router.route('/sample-api/users')
-    .get(function(req,res){        
-        // save it in DB
-        User.find(function(err, allUsers) {
-            if (err) { res.send(err); }
-            else {  res.json(allUsers);}
-        });
-
-    });
-router.route('/sample-api/authenticate')
-    .post(function(req,res){
-        // find the user
-        User.findOne({name: req.body.name}, function(err, user) {
-            if (err) throw err;
-            if (!user) {
-                res.json({ success: false, message: 'User not found.'});
-            } 
-            else { // user found
-                // check if password matches
-                if (user.password != req.body.password) {
-                    res.json({ success: false, message: 'Wrong password.' });
-                } 
-                else {
-                // if user is found and password is right
-                // create a token - create a new temp object and pass in user name and admin flag - no pwd
-                var token = jwt.sign({user:user.name,admin:user.admin}, app.get('customKey'), {
-                    expiresInMinutes: 600 // expires in 10 hours
+                var temp_query = client.query("DELETE FROM Audio WHERE id=($1)",[parseInt(req.params.audio_id)]);
+                temp_query.on("end",function(result){
+                    done(); console.log(JSON.stringify(result));
+                    return res.json((result.rowCount ==0)?"Row id not found":"Delete row success");         
                 });
-
-                // return the information including token as JSON
-                res.json({
-                    success: true,
-                    message: 'Authentication success. Token created/found',
-                    token: token
-                });
-                }   
             }
         });
+    });   
+// 3.a User management route /sample-api/newUserSetup
+router.route('/sample-api/newUserSetup')
+    .post(function(req,res){
+        if (req.body.name ==""||req.body.password==""||req.body.name ==null||req.body.password==null) 
+            return res.json("At least one input field is empty or not present. Please try again");
+        var newName = req.body.name;  
+        var newPassword = req.body.password;  
+        var newIsAdmin = false;          
+        // insert it to DB
+        pg.connect(conString, function(err, client, done) {
+            if (err) return res.json("Error inserting row "+JSON.stringify(err));
+            else {
+                client.query("INSERT INTO commonuser(name,password,isadmin) VALUES($1,$2,$3)",[newName,newPassword,newIsAdmin])
+                    .on("end",function(result){
+                        done(); console.log(JSON.stringify(result));
+                        return res.json((result.rowCount ==0)?"Create new user fail. Please try again":"Insert success");         
+                    });
+            }
+        }); 
+
+    });
+// 3.b route /sample-api/users    
+router.route('/sample-api/users')
+    // get all users
+    .get(function(req, res) {
+        pg.connect(conString, function(err, client, done) {
+            if (err) return res.json("Error fetching user rows "+JSON.stringify(err));
+            else {
+                var results =[];
+                var temp_query = client.query("SELECT * FROM commonuser ORDER BY id ASC");
+                temp_query.on("row",function(row){
+                    results.push(row);        
+                });
+                temp_query.on("end",function(){
+                    done();
+                    return res.json(results);         
+                });
+            }
+        });
+    });
+// 3.c Authenticate user and send back token route /authenticate    
+router.route('/authenticate')
+    .post(function(req,res){
+        count++;
+        console.log('Request '+ count +' received');
+        var result={};
+        var found = false;
+        // check if user name and pwd found in db
+        pg.connect(conString, function(err, client, done) {
+            if (err) return res.json("Error fetching user row "+JSON.stringify(err));
+            else {
+                var temp_query = client.query("SELECT * FROM commonuser WHERE name=($1) and password=($2)",[req.body.name,req.body.password]);
+                temp_query.on("row",function(row){
+                    result = row;   
+                    console.log("Checking row "+JSON.stringify(result)); 
+                    found = true;      
+                });
+                temp_query.on("end",function(){
+                    done();
+                    if (!found) return res.json("Username or password is incorrect. Please try again");  
+                    else {
+                        // if found, create token
+                        // create a new temp object and pass in user name and admin flag - no pwd
+                        var token = jwt.sign({name:req.body.name,isadmin:result.isadmin}, app.get('customKey'), {
+                            expiresInMinutes: 600 // expires in 10 hours
+                        });
+
+                        // return the information including token as JSON
+                        return res.json({
+                            success: true,
+                            message: 'Authentication success. Token created/found',
+                            token: token
+                        });  
+                    }       
+                });
+            } // end else 
+        });          
     })            
 // more routes for our API will happen here
+
+
 
 // START THE SERVER
 // =============================================================================
