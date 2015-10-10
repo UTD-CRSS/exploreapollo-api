@@ -20,9 +20,9 @@ var app        = express();
 var bodyParser = require('body-parser');
 var jwt        = require('jsonwebtoken');
 var config     = require('./config');
-var pg = require('pg');
-var conString = config.database;
-
+var util       = require('util');
+var pg         = require('pg');
+var conString  = util.format(config.database, config.username,config.password); ;
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST

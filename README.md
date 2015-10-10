@@ -11,6 +11,8 @@ This project requires Node ^4.0.0. You should install node using nvm.
 Clone the repo to a desire location in your machine, and at the root level of the repo, install all the required packages:   
 
     npm install 
+    
+Contact me for crerds config    
 
 For the testing purpose, I'm using Postman to send request/receive response from server. It's currently available in chrome app store. 
 
