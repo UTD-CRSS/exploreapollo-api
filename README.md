@@ -12,7 +12,7 @@ Clone the repo to a desire location in your machine, and at the root level of th
 
     npm install 
     
-Contact me for crerds config    
+Contact me for creds config    
 
 For the testing purpose, I'm using Postman to send request/receive response from server. It's currently available in chrome app store. 
 
