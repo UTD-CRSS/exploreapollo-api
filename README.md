@@ -1,6 +1,7 @@
 # Apollo Project - API Web Server App 
 
-#
+[![Dependency Status](https://david-dm.org/UTD-CRSS/api.exploreapollo.org.svg)](https://david-dm.org/UTD-CRSS/api.exploreapollo.org)
+
 
 # Development
 
