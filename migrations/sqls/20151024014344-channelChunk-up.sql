@@ -1,4 +1,3 @@
-/* Replace with your SQL commands */
 CREATE TABLE missions (
   id SERIAL PRIMARY KEY,
   name TEXT NOT NULL,
