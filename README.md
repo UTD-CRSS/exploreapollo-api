@@ -21,10 +21,10 @@ All fields in this table have a minimum length of 1 and a max length of 254 char
 
 field | domain
 --- | ---
-id | [SERIAL][]
-name | `reasonable_string`
-email | `reasonable_string`
-password | [TEXT][]
+`id` | [SERIAL][]
+`name` | `reasonable_string`
+`email` | `reasonable_string`
+`password` | [TEXT][]
 
 ### `missions`
 

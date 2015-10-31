@@ -2,7 +2,7 @@
   "dev": {
     "host": "localhost",
     "user": { "ENV" : "DB_USER" },
-    "password" : { "ENV" : "DB_PASS" },
+    "password" : { "ENV" : "PGPASSWORD" },
     "database": "exploreapollo-dev",
     "driver": "postgres"
   }
