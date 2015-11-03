@@ -59,6 +59,7 @@ field | domain | description
 ### `stories`
 
 field | domain | description
+--- | --- | ---
 `id` | [SERIAL][]
 `name` | [TEXT][] | Text slug
 `title` | [TEXT][] | Display name
@@ -68,6 +69,7 @@ field | domain | description
 ### `moments`
 
 field | domain | description
+--- | --- | ---
 `id` | [SERIAL][]
 `name` | [TEXT][] | Text slug
 `title` | [TEXT][] | Display name
@@ -80,6 +82,7 @@ field | domain | description
 Many-to-many relationship table between moments and stories
 
 field | domain | description
+--- | --- | ---
 `id` | [SERIAL][]
 `moment_id` | [INTEGER][] | Foreign key for moment
 `story_id` | [INTEGER][] | Foreign key for story
@@ -89,6 +92,7 @@ field | domain | description
 Many-to-many relationship between moments and channels
 
 field | domain | description
+--- | --- | ---
 `id` | [SERIAL][]
 `moment_id` | [INTEGER][] | Foreign key for moment
 `channel_id` | [INTEGER][] | Foreign key for channel
@@ -96,6 +100,7 @@ field | domain | description
 ### `speakers`
 
 field | domain | description
+--- | --- | ---
 `id` | [SERIAL][]
 `name` | [TEXT][] | Text slug
 `title` | [TEXT][] | Display name, perhaps the speaker's full name
@@ -104,6 +109,7 @@ field | domain | description
 ### `transcript_parts`
 
 field | domain | description
+--- | --- | ---
 `id` | [SERIAL][]
 `message` | [TEXT][] | The spoken text for the part
 `met_start` | [BIGINT][] | Mission elapsed time in milliseconds where this moment begins
