@@ -1,4 +1,5 @@
 var transcript1 = {
+    "message"       : "Success",
     "momentID"      : 3,
     "startTime"     : "3.23e6",
     "endTime"       : "3.73e6",
@@ -46,4 +47,24 @@ var transcript1 = {
     ]
 };
 
+var momentMock = {
+    "message"         : "Success",
+    "title"           : "Potato",
+    "audioURL"        : "audio.exploreapollo.org/stream?mission=11&channel=14&channel=18&channel=24&format=m4a&t=369300000&len=600",
+    "startTime"       : "369300000",
+    "length"          : "6000000",
+    "body"            : {},
+    "upcomingMoments" : [
+        {
+            id    : 100,
+            title : "cookie"
+        },
+        {
+            id    : 105,
+            title : "almond"
+        }
+    ]
+};
+
 exports.transcript1 = transcript1;
+exports.momentMock = momentMock;
