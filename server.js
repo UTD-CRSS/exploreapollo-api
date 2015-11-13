@@ -9,19 +9,24 @@ var express    = require('express');
 var app        = express();                 
 var bodyParser = require('body-parser');
 var jwt        = require('jsonwebtoken');
-var config     = require('./config');
 var util       = require('util');
 var pg         = require('pg');
-var conString  = util.format(config.database, config.username,config.password); ;
+
+// our stuffs
+var config     = require('./config');
+var sqlLib     = require('./basicSQL');
 var sampleData = require('./sampleData');
+
+
+var conString  = util.format(config.database,config.username, config.password); 
+
 
 // configure app to use bodyParser() - this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//app.set('customKey',config.key); // set key
+app.set('customKey',config.key); // set key
 var port = 4060;        // set our port 
-
 
 // =============================================================================
 // ====================== ROUTES INITIALIZATION ================================
@@ -59,13 +64,7 @@ apiRoute.route('/api/transcript')
             if (err) return res.json({"message" : "Error connecting to database"});
             else {
                 
-                var queryString = "SELECT transcript_parts.id, transcript_parts.met_start, transcript_parts.message, transcript_parts.speaker_id, speakers.name, transcript_parts.ChannelID
-                                    FROM (
-                                        SELECT * FROM transcript_parts WHERE met_start  >= $1 AND met_start <= $2
-                                    )
-                                    INNER JOIN speakers
-                                    ON transcript_parts.speaker_id = speakers.id
-                                    ORDER BY transcript_parts.met_start ASC";
+                var queryString = sqlLib.SelectTranscript;
                 var temp_query = client.query(queryString,[startTime,endTime]);
 
                 // ===== processing returned data ====
@@ -121,13 +120,7 @@ apiRoute.route('/api/moment')
             pg.connect(conString, function(err, client, done){
                 if (err) return res.json({"message" : "Error connecting to database"});
                 else {
-                    var queryString = "SELECT moments.id, moments.title, moments.met_start, moments.met_end 
-                                        FROM (
-                                            SELECT channel_id FROM moment_channel_join ON moment_channel_join.id = $1
-                                        )
-                                        INNER JOIN moments
-                                        ON moments.id = moment_channel_join.moment_id
-                                        ORDER BY moment_channel_join.channel_id ASC";
+                    var queryString = sqlLib.GenerateStreamingURL;
 
                     var temp_query = client.query(queryString,[momentID]);
 
@@ -187,9 +180,23 @@ apiRoute.route('/api/moment')
 // =============================================================================
 
 
-
-
-
+/* Testing our db connection - works!
+pg.connect(conString, function(err, client, done){
+    if (err) {console.log("fail");return;}
+    else {
+        var result = [];
+        client.query("SELECT * FROM channels")
+            .on("row",function(row){
+                result.push(row);
+            })
+            .on("end",function(){
+                done();
+                console.log(JSON.stringify(result));
+                return; 
+            });
+    }
+});
+*/ 
 
 
 // =============================================================================

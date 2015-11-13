@@ -12,7 +12,7 @@ Clone the repo to a desire location in your machine, and at the root level of th
 
     npm install 
     
-Contact me for creds config    
+Contact me for creds     
 
 For the testing purpose, I'm using Postman to send request/receive response from server. It's currently available in chrome app store. 
 
@@ -23,19 +23,14 @@ For the testing purpose, I'm using Postman to send request/receive response from
 
   - Open Postman and from here you should be able to play around with sending request/receive response from server
     
-# Sample api for web server
+# API Routes for web server
 
-**Sample Routes**
+**API Routes**
 
-    /sample-api/audio            GET		get all audio metadatas
-    /sample-api/audio	         POST	  	create an audio metadata
-    /sample-api/audio/:audio_id  GET        get a single audio metadata	
-    /sample-api/audio/:audio_id  PUT        update audio metadata with matched id with new info
-    /sample-api/audio/:audio_id  DELETE     delete audio metadata with matched id from DB
-    
-    /sample-api/newUserSetup  POST   create new user in db
-    /sample-api/users         GET    return all users in db
-    /authenticate             POST   authenticate usr/pwd and return token if success
+    /api/moment?momentID=%s                                          GET		return an audio streaming URL
+    /api/transcript?momentID=%s&startTime=%s&endTime=%s	             GET	  	return all transcripts within given time interval of given momentID
+
+
     
  
 

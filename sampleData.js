@@ -66,5 +66,51 @@ var momentMock = {
     ]
 };
 
+var storyMock = {
+    "message"         : "Success",
+    "id"              : 10,  
+    "title"           : "Mars",
+    "description"     : "asiqwieu12u129eu912ue9",  
+    "momentList"      : [
+        {
+            "id"            : 12,
+            "title"         : "crater",
+            "order"         : 1,
+            "met_start"     : 3.23e4,
+            "met_end"       : 4.23e4,
+            "description"   : "abcdxyz"
+        },
+        {
+            "id"            : 16,
+            "title"         : "water",
+            "order"         : 2,
+            "met_start"     : 3.84e4,
+            "met_end"       : 5.93e4,
+            "description"   : "asjdsjdb"
+        },
+        {
+            "id"            : 22,
+            "title"         : "crust",
+            "order"         : 3,
+            "met_start"     : 6.11e4,
+            "met_end"       : 7.22e4,
+            "description"   : "abcqwejqjkbcjbscdxyz"
+        },
+        {
+            "id"            : 34,
+            "title"         : "lava",
+            "order"         : 4,
+            "met_start"     : 7.13e4,
+            "met_end"       : 9.55e4,
+            "description"   : "asdmasdjkbjkb212bl"
+        },
+    ]
+};
+
+
 exports.transcript1 = transcript1;
 exports.momentMock = momentMock;
+exports.storyMock = storyMock;
+
+
+
