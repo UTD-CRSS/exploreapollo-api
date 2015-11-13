@@ -8,10 +8,10 @@
     "driver": "postgres"
   },
   "production": {
-    "host": "exploreapollo.caxd8sohnoyv.us-west-2.rds.amazonaws.com:5432",
+    "host": "exploreapollo.caxd8sohnoyv.us-west-2.rds.amazonaws.com",
     "user": { "ENV" : "DB_USER" },
     "password" : { "ENV" : "PGPASSWORD" },
     "database": "exploreapollo",
-    "driver": "postgres"
+    "driver": "pg"
   }
 }

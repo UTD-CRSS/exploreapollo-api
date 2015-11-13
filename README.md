@@ -73,6 +73,7 @@ field | domain | description
 `id` | [SERIAL][]
 `name` | [TEXT][] | Text slug
 `title` | [TEXT][] | Display name
+`description` | [TEXT][]
 `met_start` | [BIGINT][] | Mission elapsed time in milliseconds where this moment begins
 `met_end` | [BIGINT][] | Mission elapsed time in milliseconds where this moment ends
 `created` | [TIMESTAMP WITH TIMEZONE][] | Time of row addition
@@ -86,6 +87,7 @@ field | domain | description
 `id` | [SERIAL][]
 `moment_id` | [INTEGER][] | Foreign key for moment
 `story_id` | [INTEGER][] | Foreign key for story
+`moment_order` | [INTEGER][] | Integer denoting the order the moment occurs in the story
 
 ### `moment_channel_join`
 
@@ -115,6 +117,7 @@ field | domain | description
 `met_start` | [BIGINT][] | Mission elapsed time in milliseconds where this moment begins
 `met_end` | [BIGINT][] | Mission elapsed time in milliseconds where this moment ends
 `speaker_id` | [INTEGER][] | Foreign key for speaker
+`channel_id` | [INTEGER][] | Foreign key for channel
 
 [email_max]: http://www.rfc-editor.org/errata_search.php?rfc=3696&eid=1690
 [TEXT]: http://www.postgresql.org/docs/9.4/static/datatype-character.html

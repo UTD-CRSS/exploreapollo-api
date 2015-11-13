@@ -10,5 +10,6 @@ CREATE TABLE transcript_parts (
   message TEXT NOT NULL,
   met_start BIGINT NOT NULL,
   met_end BIGINT NOT NULL,
-  speaker_id INTEGER REFERENCES speakers (id) NOT NULL
+  speaker_id INTEGER REFERENCES speakers (id) NOT NULL,
+  channel_id INTEGER REFERENCES channels (id) NOT NULL
 );
