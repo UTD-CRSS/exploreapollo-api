@@ -1,5 +1,4 @@
 {
-  "defaultEnv": {"ENV": "NODE_ENV"},
   "development": {
     "host": "localhost",
     "user": { "ENV" : "DB_USER" },
