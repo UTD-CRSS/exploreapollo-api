@@ -5,6 +5,7 @@ CREATE DOMAIN reasonable_string TEXT CHECK (
 );
 
 CREATE TABLE users (
+  id serial primary key,
   name reasonable_string,
   email reasonable_string,
   password TEXT
