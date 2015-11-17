@@ -14,7 +14,7 @@ var pg         = require('pg');
 
 // our stuffs
 var config     = require('./config');
-var sqlLib     = require('./basicSQL');
+var sqlLib     = require('./sqlLib');
 var sampleData = require('./sampleData');
 
 
@@ -135,10 +135,10 @@ apiRoute.route('/api/moment')
                         else { // valid momentID
 
                             // cooking the audio url
-                            var momentlength = momentMetadata[0].met_end - momentMetadata[0].met_start; 
+                            var momentlength = momentMetadata[0].met_end - momentMetadata[0].met_start; // met-start and end are same for all rows so pick an arbitrary one and extract these two
                             var momentstart = momentMetadata[0].met_start;
                             // right now its only mission 11 - might need to query/change above query to get mission id
-                            var audioURL  = "audio.exploreapollo.org/stream?mission=11";
+                            var audioURL  = config.defaultStreamingURL;
                             for (var i = 0; i < momentMetadata.length; i++){
                                 audioURL += "&channel=" + momentMetadata[i].channel_id         
                             }
@@ -157,8 +157,7 @@ apiRoute.route('/api/moment')
                                 "audioURL"        : audioURL,
                                 "startTime"       : momentstart,
                                 "length"          : momentlength,
-                                "body"            : {},
-                                "upcomingMoments" : []
+                                "body"            : {}
                             };
                             return res.json(result); 
                         }
@@ -167,11 +166,6 @@ apiRoute.route('/api/moment')
             });  // end outter query        
             // ===== query db ====
 
-            /*
-            return res.json({
-                message : "Success for id " + momentID,
-                resultObject : sampleData.momentMock
-            });*/
         }    
     });
 
@@ -184,16 +178,21 @@ apiRoute.route('/api/moment')
 pg.connect(conString, function(err, client, done){
     if (err) {console.log("fail");return;}
     else {
-        var result = [];
-        client.query("SELECT * FROM channels")
-            .on("row",function(row){
-                result.push(row);
-            })
-            .on("end",function(){
-                done();
-                console.log(JSON.stringify(result));
-                return; 
-            });
+        var result = []; var temp =1;
+        var queryString = sqlLib.GenerateStreamingURL;
+        var dquery = client.query(queryString,[temp]);
+
+        dquery.on("row",function(row){
+            result.push(row);
+        });
+        dquery.on("end",function(){
+            done();
+            console.log(JSON.stringify(result));
+            return; 
+        });
+        dquery.on('error', function(error) {
+            console.log("fail sql "+error);
+        });     
     }
 });
 */ 

@@ -50,20 +50,10 @@ var transcript1 = {
 var momentMock = {
     "message"         : "Success",
     "title"           : "Potato",
-    "audioURL"        : "audio.exploreapollo.org/stream?mission=11&channel=14&channel=18&channel=24&format=m4a&t=369300000&len=600",
+    "audioURL"        : "http://audio.exploreapollo.org/stream?mission=11&channel=14&channel=18&channel=24&format=m4a&t=369300000&len=600",
     "startTime"       : "369300000",
     "length"          : "6000000",
-    "body"            : {},
-    "upcomingMoments" : [
-        {
-            id    : 100,
-            title : "cookie"
-        },
-        {
-            id    : 105,
-            title : "almond"
-        }
-    ]
+    "body"            : {}
 };
 
 var storyMock = {
