@@ -49,15 +49,14 @@ apiRoute.route('/api/transcript')
         var result ={}; 
         var myTranscripts = [];   
         var momentID, startTime, endTime;
-
-        // extract momentID, startTime and endtime
-        var myKeys = Object.keys(req.query); 
-        console.log("Check params "+JSON.stringify(req.query) +" ---- "+myKeys.length);
         
-        momentID = req.query[myKeys[0]];
-        startTime = req.query[myKeys[1]];
-        endTime = req.query[myKeys[2]];
-        console.log(momentID + "-" + startTime + "-" + endTime); 
+        momentID = parseInt(req.query.momentID);
+        startTime = parseInt(req.query.startTime);
+        endTime = parseInt(req.query.endTime); 
+
+
+        if (momentID == "" || startTime == "" || endTime == "" || momentID == null || startTime == null || endTime == null )
+            return res.json({"message" : "At least one param is empty or mising. Please try again"});
             
         // ===== query db ====
         pg.connect(conString, function(err, client, done) {
@@ -65,7 +64,7 @@ apiRoute.route('/api/transcript')
             else {
                 
                 var queryString = sqlLib.SelectTranscript;
-                var temp_query = client.query(queryString,[startTime,endTime]);
+                var temp_query = client.query(queryString,[momentID,startTime,endTime]);
 
                 // ===== processing returned data ====
                 temp_query.on("row",function(row){
@@ -94,19 +93,9 @@ apiRoute.route('/api/transcript')
             }
         });
         // ===== query db ====
-        
-        /*
-        // ===== package data and send back to front-end ====    
-        var tmp = sampleData.transcript1;
-        tmp.momentID = momentID;
-        tmp.startTime = startTime;
-        tmp.endTime = endTime;
-        res.send(tmp);
-        // ===== package data and send back to front-end ====
-        */    
     });
 
-// 2. Moment
+// 2. Moment - confirmed 1.0
 apiRoute.route('/api/moment') 
     .get(function(req,res){
         var momentID = req.query.momentID;
@@ -145,7 +134,7 @@ apiRoute.route('/api/moment')
                             audioURL += "&format=m4a"; // default format for now?
                             audioURL += "&t=" + momentstart;
                             audioURL += "&len=" + momentlength;    
-                            console.log("Audio url " + audioURL); 
+                            //console.log("Audio url " + audioURL); 
 
                             // body?
                             // upcoming moments?
@@ -174,13 +163,16 @@ apiRoute.route('/api/moment')
 // =============================================================================
 
 
-/* Testing our db connection - works!
+/* Testing our db connection - transcript test!
 pg.connect(conString, function(err, client, done){
     if (err) {console.log("fail");return;}
     else {
-        var result = []; var temp =1;
-        var queryString = sqlLib.GenerateStreamingURL;
-        var dquery = client.query(queryString,[temp]);
+        var result = []; 
+        var id = 1;
+        var mstart = 3.55e5; var mend =4.54e5;
+
+        var queryString = sqlLib.SelectTranscript;
+        var dquery = client.query(queryString,[id,mstart,mend]);
 
         dquery.on("row",function(row){
             result.push(row);
