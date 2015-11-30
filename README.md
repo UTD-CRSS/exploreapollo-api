@@ -29,6 +29,7 @@ For the testing purpose, I'm using Postman to send request/receive response from
 
     /api/moment?momentID=%s                                          GET		return an audio streaming URL
     /api/transcript?momentID=%s&startTime=%s&endTime=%s	             GET	  	return all transcripts within given time interval of given momentID
+    /api/story?storyID=%s        	                                 GET	  	return all metadata of story with provided ID
 
 
     
