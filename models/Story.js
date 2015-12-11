@@ -78,7 +78,7 @@ Story.getAll = function(options, client) {
 
 Story.addMoments = function(story, moments) {
     if (_.isArray(story.momentList)) {
-        story.momentList.push(moments);
+        story.momentList = [].concat(story.momentList, moments);
     }
     return story
 };
