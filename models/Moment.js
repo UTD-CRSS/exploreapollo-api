@@ -13,6 +13,24 @@ function Moment(rawMoment) {
     });
 }
 
+Moment.getById = function (id, client) {
+    return new Promise(function(resolve, reject) {
+        client.query(
+            "SELECT * from moments where id=$1",
+            [id],
+            (err, result) => {
+                if (err) {
+                    return reject(err);
+                }
+
+                resolve(
+                    Moment(result.rows[0])
+                );
+            }
+        );
+    });
+}
+
 Moment.getByStoryId = function(storyId, client) {
     return new Promise(function(resolve, reject) {
         client.query(

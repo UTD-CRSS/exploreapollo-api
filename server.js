@@ -18,6 +18,7 @@ const sampleData = require('./sampleData');
 
 // models
 const Story = require('./models/Story');
+const Moment = require('./models/Moment');
 
 const dbAuth = `${config.get('db.user')}:${config.get('db.password')}`;
 const dbHostInfo = `${config.get('db.host')}/${config.get('db.database')}`;
@@ -109,60 +110,31 @@ apiRoute.route('/api/transcripts')
 apiRoute.route('/api/moments/:id')
     .get(function(req,res){
         var momentID = req.params.id;
-        if (momentID == null || momentID == "")
+        if (!momentID) {
             return res.json({ "message" : "Empty momentID. Please try again"});
-
-        var result ={};
-        var momentMetadata = []; // array of row objects
+        }
 
         // ===== query db ====
         pg.connect(conString, function(err, client, done){
-            if (err) return res.json({"message" : "Error connecting to database"});
+            if (err) {
+                return res.json({"message" : "Error connecting to database"});
+            }
 
-            var queryString = sqlLib.GenerateStreamingURL;
-            var temp_query = client.query(queryString,[momentID]);
+            console.log('test');
+            Moment
+                .getById(momentID, client)
+                .then((moment) => {
+                    console.log(moment);
+                    moment.mission =  {
+                        id: 1,
+                        title: "Apollo 11",
+                        length: 7.031e8
+                    };
+                    moment. audioUrl = "https://aqueous-garden-9236.herokuapp.com/stream.mp3";
 
-            // ===== processing returned data ====
-            temp_query.on("row",function(row){
-                momentMetadata.push(row);
-            });
-
-            // ===== package data and send back to front-end ====
-            temp_query.on("end",function(){
-                done();
-                if (momentMetadata.length == 0) return res.json({"message" : "Incorrect momentID. Please try again"});
-
-                // cooking the audio url
-                var momentlength = momentMetadata[0].met_end - momentMetadata[0].met_start; // met-start and end are same for all rows so pick an arbitrary one and extract these two
-                var momentstart = momentMetadata[0].met_start;
-                // right now its only mission 11 - might need to query/change above query to get mission id
-                var audioURL  = config.defaultStreamingURL;
-                for (var i = 0; i < momentMetadata.length; i++){
-                    audioURL += "&channel=" + momentMetadata[i].channel_id
-                }
-                audioURL += "&format=m4a"; // default format for now?
-                audioURL += "&t=" + momentstart;
-                audioURL += "&len=" + momentlength;
-                //console.log("Audio url " + audioURL);
-
-                // body?
-                // upcoming moments?
-
-                // package result object
-                result = {
-                    "message"         : "Success",
-                    "title"           : momentMetadata[0].title,
-                    "audioURL"        : audioURL,
-                    "startTime"       : momentstart,
-                    "length"          : momentlength,
-                    "body"            : {}
-                };
-                return res.json(result);
-
-            });
-
-        });  // end outter query
-        // ===== query db ====
+                    return res.json(moment);
+                })
+        });
     });
 
 // 3. Body???
