@@ -46,7 +46,7 @@ Story.getAll = function(options, client) {
     return new Promise(function (resolve, reject) {
         // TODO: Pagination
         client.query(
-            "SELECT * FROM public.stories",
+            "SELECT * FROM public.stories order by id",
             [],
             (err, result) => {
                 // TODO: dry these error checks up
