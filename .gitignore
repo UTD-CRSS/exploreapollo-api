@@ -29,3 +29,7 @@ node_modules
 
 #creds
 config.js
+config/*
+!config/default.js
+!config/custom-environment-variables.js
+!config/config-example.js

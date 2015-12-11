@@ -1,43 +1,41 @@
-
-
 // =============================================================================
 // =========================== BASE SETUP ======================================
 // =============================================================================
 
-// import neccessary pkgs 
-var express    = require('express');        
-var app        = express();                 
-var bodyParser = require('body-parser');
-var jwt        = require('jsonwebtoken');
-var util       = require('util');
-var pg         = require('pg');
+// import neccessary pkgs
+const express    = require('express');
+const app        = express();
+const bodyParser = require('body-parser');
+const jwt        = require('jsonwebtoken');
+const util       = require('util');
+const pg         = require('pg');
+const config     = require('config');
+const _          = require('lodash');
 
 // our stuffs
-var config     = require('./config');
-var sqlLib     = require('./sqlLib');
-var sampleData = require('./sampleData');
+const sqlLib     = require('./sqlLib');
+const sampleData = require('./sampleData');
 
+// models
+const Story = require('./models/Story');
 
-var conString  = util.format(config.database,config.username, config.password); 
-
+const dbAuth = `${config.get('db.user')}:${config.get('db.password')}`;
+const dbHostInfo = `${config.get('db.host')}/${config.get('db.database')}`;
+const conString = `pg://${dbAuth}@${dbHostInfo}`;
 
 // configure app to use bodyParser() - this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(require('cors')());
 
 app.set('customKey',config.key); // set key
-var port = 4060;        // set our port 
+const port = config.get('port');        // set our port
 
 // =============================================================================
 // ====================== ROUTES INITIALIZATION ================================
 // =============================================================================
-var apiRoute = express.Router();
+const apiRoute = express.Router();
 app.use(apiRoute); // REGISTER ROUTES
-// =============================================================================
-// ====================== ROUTES INITIALIZATION ================================
-// =============================================================================
-
-
 
 // =============================================================================
 // ========================== ROUTES FOR OUR API ===============================
@@ -48,40 +46,51 @@ app.use(apiRoute); // REGISTER ROUTES
 // *******************
 
 // 1. Transcript
-apiRoute.route('/api/transcript')        
+apiRoute.route('/api/transcripts')
     .get(function(req,res){
-        var result ={}; 
-        var myTranscripts = [];   
-        var momentID, startTime, endTime; 
-        var momentIDParam,startTimeParam, endTimeParam;
+        var result ={};
+        var myTranscripts = [];
 
-        momentIDParam = req.query.momentID;
-        startTimeParam = req.query.startTime;
-        endTimeParam = req.query.endTime;
+        const momentIDParam = req.query.momentID;
+        const startTimeParam = req.query.startTime;
+        const endTimeParam = req.query.endTime;
 
-        if (momentIDParam == "" || startTimeParam == "" || endTimeParam == "" || momentIDParam == null || startTimeParam == null || endTimeParam == null )
-            return res.json({"message" : "At least one param is empty or mising. Please try again"});
+        if (_.every([
+            momentIDParam,
+            startTimeParam,
+            endTimeParam
+        ], Boolean) === false) {
+            res.status = 400;
+            return res.json({
+                message: "At least one param is empty or mising. Please try again"
+            });
+        }
 
-        momentID = parseInt(momentIDParam);
-        startTime = parseInt(startTimeParam);
-        endTime = parseInt(endTimeParam);
+        const momentID = parseInt(momentIDParam);
+        const startTime = parseInt(startTimeParam);
+        const endTime = parseInt(endTimeParam);
 
         // ===== query db ====
         pg.connect(conString, function(err, client, done) {
-            if (err) return res.json({"message" : "Error connecting to database"});        
-            
-            var queryString = sqlLib.SelectAllTranscriptsWithinGivenInterval;
-            var temp_query = client.query(queryString,[momentID,startTime,endTime]);
+            if (err) {
+                return res.json({"message" : "Error connecting to database"});
+            }
+
+            const queryString = sqlLib.SelectAllTranscriptsWithinGivenInterval;
+            const temp_query = client.query(
+                queryString,
+                [momentID,startTime,endTime]
+            );
 
             // ===== processing returned data ====
-            temp_query.on("row",function(row){
-                myTranscripts.push(row);        
+            temp_query.on("row", function(row) {
+                myTranscripts.push(row);
             });
 
-            // ===== package data and send back to front-end ==== 
+            // ===== package data and send back to front-end ====
             temp_query.on("end",function(){
                 done();
-                if (myTranscripts.length == 0) return res.json({"message" : "Incorrect metadata. Please try again"});                
+                if (myTranscripts.length == 0) return res.json({"message" : "Incorrect metadata. Please try again"});
                 result = {
                     "message"       : "Success",
                     "momentID"      : momentID,
@@ -89,39 +98,39 @@ apiRoute.route('/api/transcript')
                     "endTime"       : endTime,
                     "transcripts"   : myTranscripts
                 };
-                return res.json(result); 
+                return res.json(result);
             });
-            // ===== package data and send back to front-end ==== 
+            // ===== package data and send back to front-end ====
         });
         // ===== query db ====
     });
 
-// 2. Moment 
-apiRoute.route('/api/moment') 
+// 2. Moment
+apiRoute.route('/api/moments/:id')
     .get(function(req,res){
-        var momentID = req.query.momentID;
-        if (momentID == null || momentID == "") 
+        var momentID = req.params.id;
+        if (momentID == null || momentID == "")
             return res.json({ "message" : "Empty momentID. Please try again"});
-         
-        var result ={}; 
+
+        var result ={};
         var momentMetadata = []; // array of row objects
 
         // ===== query db ====
         pg.connect(conString, function(err, client, done){
             if (err) return res.json({"message" : "Error connecting to database"});
-            
+
             var queryString = sqlLib.GenerateStreamingURL;
             var temp_query = client.query(queryString,[momentID]);
 
             // ===== processing returned data ====
             temp_query.on("row",function(row){
-                momentMetadata.push(row);        
+                momentMetadata.push(row);
             });
 
             // ===== package data and send back to front-end ====
             temp_query.on("end",function(){
-                done();         
-                if (momentMetadata.length == 0) return res.json({"message" : "Incorrect momentID. Please try again"}); 
+                done();
+                if (momentMetadata.length == 0) return res.json({"message" : "Incorrect momentID. Please try again"});
 
                 // cooking the audio url
                 var momentlength = momentMetadata[0].met_end - momentMetadata[0].met_start; // met-start and end are same for all rows so pick an arbitrary one and extract these two
@@ -129,12 +138,12 @@ apiRoute.route('/api/moment')
                 // right now its only mission 11 - might need to query/change above query to get mission id
                 var audioURL  = config.defaultStreamingURL;
                 for (var i = 0; i < momentMetadata.length; i++){
-                    audioURL += "&channel=" + momentMetadata[i].channel_id         
+                    audioURL += "&channel=" + momentMetadata[i].channel_id
                 }
                 audioURL += "&format=m4a"; // default format for now?
                 audioURL += "&t=" + momentstart;
-                audioURL += "&len=" + momentlength;    
-                //console.log("Audio url " + audioURL); 
+                audioURL += "&len=" + momentlength;
+                //console.log("Audio url " + audioURL);
 
                 // body?
                 // upcoming moments?
@@ -148,11 +157,11 @@ apiRoute.route('/api/moment')
                     "length"          : momentlength,
                     "body"            : {}
                 };
-                return res.json(result); 
-                
-            });        
-              
-        });  // end outter query        
+                return res.json(result);
+
+            });
+
+        });  // end outter query
         // ===== query db ====
     });
 
@@ -163,91 +172,40 @@ apiRoute.route('/api/moment')
 // *******************
 
 // 1. Story
-apiRoute.route('/api/story')        
-    .get(function(req,res){
-        var storyID = req.query.storyID;
-        if (storyID == null || storyID == "") 
-            return res.json({ "message" : "Empty storyID. Please try again"});     
-        var result ={}; 
-        var momentList = [];
-        var tempArray = []; // storing raw rows returned
+apiRoute.route('/api/stories')
+    .get(function(req, res, next) {
+        pg.connect(conString, function(err, client, done) {
+            // TODO: Pagniation
+            Story
+                .getAll({}, client)
+                .then((result) => {
+                    done();
+                    return res.json(result);
+                });
+        });
+    });
 
-        // ===== query db ====
-        pg.connect(conString, function(err, client, done){
-            if (err) return res.json({"message" : "Error connecting to database"});
-            var queryString = sqlLib.SelectAllMomentsOfGivenStory;
-            var temp_query = client.query(queryString,[storyID]);
+apiRoute.route('/api/stories/:id')
+    .get(function(req, res, next) {
+        const storyID = req.params.id;
 
-            // ===== processing returned data ====
-            temp_query.on("row",function(row){
-                tempArray.push(row);        
-            });
+        if (!storyID) {
+            res.status = 400;
+            return res.json({message: "Empty storyID. Please try again"});
+        }
 
-            // ===== package data and send back to front-end ====
-            temp_query.on("end",function(){
-                done();         
-                if (tempArray.length == 0) return res.json({"message" : "Incorrect storyID. Please try again"});
-                for (var i =0; i<tempArray.length; i++){
-                    momentList.push({
-                        "id"            : tempArray[i].moment_id,
-                        "title"         : tempArray[i].moment_title,
-                        "order"         : tempArray[i].moment_order,
-                        "met_start"     : tempArray[i].met_start,
-                        "met_end"       : tempArray[i].met_end,
-                        "description"   : tempArray[i].moment_description
-                    });
-                }
-                result = {
-                    "message"         : "Success",
-                    "id"              : storyID,
-                    "title"           : tempArray[0].story_title,
-                    "description"     : tempArray[0].story_description,  
-                    "momentList"      : momentList
-                };
-                return res.json(result); 
-            });
+        pg.connect(conString, function(err, client, done) {
+            Story
+                .getById(storyID, client)
+                .then((result) => {
+                    done();
+                    return res.json(result);
+                });
         });
     });
 
 // =============================================================================
-// ========================== ROUTES FOR OUR API ===============================
-// =============================================================================
-
-
-/* Testing our db connection - transcript test!
-pg.connect(conString, function(err, client, done){
-    if (err) {console.log("fail");return;}
-    else {
-        var result = []; 
-        var id = 1;
-        var mstart = 3.55e5; var mend =4.54e5;
-
-        var queryString = sqlLib.SelectTranscript;
-        var dquery = client.query(queryString,[id,mstart,mend]);
-
-        dquery.on("row",function(row){
-            result.push(row);
-        });
-        dquery.on("end",function(){
-            done();
-            console.log(JSON.stringify(result));
-            return; 
-        });
-        dquery.on('error', function(error) {
-            console.log("fail sql "+error);
-        });     
-    }
-});
-*/ 
-
-
-// =============================================================================
 // ====================== START THE SERVER =====================================
 // =============================================================================
-
-// 
-// =============================================================================
 app.listen(port);
-console.log('Server is listening to port ' + port);
-
-
+console.log(`Server is listening to port ${port}`);
