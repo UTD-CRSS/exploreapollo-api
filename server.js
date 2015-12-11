@@ -120,7 +120,6 @@ apiRoute.route('/api/moments/:id')
                 return res.json({"message" : "Error connecting to database"});
             }
 
-            console.log('test');
             Moment
                 .getById(momentID, client)
                 .then((moment) => {
