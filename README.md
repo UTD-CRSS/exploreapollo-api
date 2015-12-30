@@ -1,5 +1,7 @@
 # Apollo Project - API Web Server App
 
+![NASA](./NASA_logo.png?raw=true)
+
 [![Dependency Status](https://david-dm.org/UTD-CRSS/api.exploreapollo.org.svg)](https://david-dm.org/UTD-CRSS/api.exploreapollo.org)
 
 
