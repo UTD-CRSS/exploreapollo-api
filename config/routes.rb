@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
-  resources :transcripts, only: [:index]
-  resources :moments, only: [:index, :show]
-  resources :stories, only: [:index, :show]
+	scope "/api" do
+	  resources :transcripts, only: [:index]
+	  resources :moments, only: [:index, :show] do
+	  	resources :transcripts, only: [:index]
+	  end
+	  resources :stories, only: [:index, :show]
+	end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   # Serve websocket cable requests in-process

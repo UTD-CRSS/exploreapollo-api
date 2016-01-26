@@ -3,8 +3,8 @@ class TranscriptsController < ApplicationController
   # GET /transcripts
   def index
     # Handle all or moments and later channels
-    @transcripts = if params.key?("moment")
-      moment = Moment.find_by(id: params["moment"])
+    @transcripts = if params.key?("moment_id")
+      moment = Moment.find_by(id: params["moment_id"])
       moment.nil? ? [] : moment.transcript
     else
       # By default return a handful of items
