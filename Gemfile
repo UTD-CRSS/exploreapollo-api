@@ -10,6 +10,8 @@ gem 'pg', '~> 0.18'
 # Use Puma as the app server
 gem 'puma'
 
+gem 'awesome_print'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

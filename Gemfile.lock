@@ -46,6 +46,7 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (7.0.0)
+    awesome_print (1.6.1)
     builder (3.2.2)
     byebug (8.2.1)
     celluloid (0.17.3)
@@ -154,6 +155,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  awesome_print
   byebug
   pg (~> 0.18)
   puma

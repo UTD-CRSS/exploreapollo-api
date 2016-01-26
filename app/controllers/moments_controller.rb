@@ -13,30 +13,30 @@ class MomentsController < ApplicationController
     render json: @moment
   end
 
-  # POST /moments
-  def create
-    @moment = Moment.new(moment_params)
+  # # POST /moments
+  # def create
+  #   @moment = Moment.new(moment_params)
 
-    if @moment.save
-      render json: @moment, status: :created, location: @moment
-    else
-      render json: @moment.errors, status: :unprocessable_entity
-    end
-  end
+  #   if @moment.save
+  #     render json: @moment, status: :created, location: @moment
+  #   else
+  #     render json: @moment.errors, status: :unprocessable_entity
+  #   end
+  # end
 
-  # PATCH/PUT /moments/1
-  def update
-    if @moment.update(moment_params)
-      render json: @moment
-    else
-      render json: @moment.errors, status: :unprocessable_entity
-    end
-  end
+  # # PATCH/PUT /moments/1
+  # def update
+  #   if @moment.update(moment_params)
+  #     render json: @moment
+  #   else
+  #     render json: @moment.errors, status: :unprocessable_entity
+  #   end
+  # end
 
-  # DELETE /moments/1
-  def destroy
-    @moment.destroy
-  end
+  # # DELETE /moments/1
+  # def destroy
+  #   @moment.destroy
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.
