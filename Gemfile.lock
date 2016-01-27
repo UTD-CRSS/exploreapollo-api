@@ -1,4 +1,13 @@
 GIT
+  remote: git://github.com/rails-api/active_model_serializers.git
+  revision: 790efee9c3bf9d96d60944eb156d1cd385fcc7df
+  specs:
+    active_model_serializers (0.10.0.rc3)
+      actionpack (>= 4.0)
+      activemodel (>= 4.0)
+      railties (>= 4.0)
+
+GIT
   remote: git://github.com/rails/rails.git
   revision: dbf67b3a6f549769c5f581b70bc0c0d880d5d5d1
   ref: dbf67b3a6f549769c5f581b70bc0c0d880d5d5d1
@@ -166,6 +175,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers!
   awesome_print
   byebug
   pg (~> 0.18)
