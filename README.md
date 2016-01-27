@@ -1,24 +1,22 @@
 ## README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Apollo Project - API Web Server App
 
-Things you may want to cover:
+# Development
 
-* Ruby version
+This project requires ruby 2.3
 
-* System dependencies
+# Setup
 
-* Configuration
+bundle install
 
-* Database creation
+# API Routes for web server
 
-* Database initialization
+endpoint | optional params | method | description
+--- | --- | --- | ---
+`/api/moments/:id` | | GET | return an audio streaming URL
+`/api/moments/:id/transcripts` | `start_time` `end_time` |GET | transcripts within given moment. 
+`/api/transcripts` | `start_time` `end_time` `moment_id` | GET | return all transcripts
+`/api/stories` | | GET | return all metadata for all available stories
+`/api/stories/:id` | | GET | return all metadata of story with provided ID
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
