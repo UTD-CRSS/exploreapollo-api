@@ -1,0 +1,6 @@
+# Explore app settings
+production:
+  audio_server_url: <%= ENV['AUDIO_SERVER_URL'] %>
+
+development:
+  audio_server_url: http://localhost:5000/stream

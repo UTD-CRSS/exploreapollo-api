@@ -16,6 +16,15 @@ class Moment < ApplicationRecord
   end
 
   def audio_url
-    "https://aqueous-garden-9236.herokuapp.com/stream.mp3"
+    mission_id = 11 # This should come from somewhere
+    chans = channels.pluck(:id)
+    duration = met_end - met_start
+    url_build = [
+      Rails.application.config_for(:explore_app)["audio_server_url"],
+      "?mission=", mission_id,
+      "&channels=", chans.join(","),
+      "&start=", met_start,
+      "&duration=", duration
+    ].join("")
   end
 end
