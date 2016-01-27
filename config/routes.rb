@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 	scope "/api" do
 	  resources :transcripts, only: [:index]
-	  resources :moments, only: [:index, :show] do
+	  resources :moments, only: [:show] do
 	  	resources :transcripts, only: [:index]
 	  end
 	  resources :stories, only: [:index, :show]
