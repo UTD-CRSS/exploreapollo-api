@@ -5,7 +5,7 @@ class StoriesController < ApplicationController
   def index
     @stories = Story.all
 
-    render json: @stories, root: false
+    render json: @stories
   end
 
   # GET /stories/1
