@@ -1,5 +1,5 @@
 class MomentsController < ApplicationController
-  before_action :set_moment, only: [:show, :update, :destroy]
+  before_action :set_moment, only: [:show, :audio]
 
   # GET /moments
   def index
@@ -11,6 +11,11 @@ class MomentsController < ApplicationController
   # GET /moments/1
   def show
     render json: @moment
+  end
+
+  # Redirect to moment audio
+  def audio
+    redirect_to @moment.cached_audio_url
   end
 
   # # POST /moments

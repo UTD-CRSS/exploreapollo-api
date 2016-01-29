@@ -2,6 +2,9 @@ Rails.application.routes.draw do
 	scope "/api" do
 	  resources :transcripts, only: [:index]
 	  resources :moments, only: [:show] do
+      member do
+        get :audio, to: :audio
+      end
 	  	resources :transcripts, only: [:index]
 	  end
 	  resources :stories, only: [:index, :show]
