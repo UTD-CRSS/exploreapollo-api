@@ -1,6 +1,12 @@
 # Explore app settings
 production:
   audio_server_url: <%= ENV['AUDIO_SERVER_URL'] %>
+  aws_access_key: <%= ENV['AWS_ACCESS_KEY'] %>
+  aws_secret_key: <%= ENV['AWS_SECRET_KEY'] %>
+  cache_bucket: <%= ENV['CACHE_BUCKET'] %>
 
 development:
-  audio_server_url: http://localhost:5000/stream
+  audio_server_url: http://localhost:5000
+  aws_access_key:
+  aws_secret_key:
+  cache_bucket:

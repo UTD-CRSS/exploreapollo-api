@@ -1,4 +1,5 @@
 class Moment < ApplicationRecord
+  include AudioCacheable
 	has_and_belongs_to_many :stories, join_table: "moment_story_join"
   has_and_belongs_to_many :channels, join_table: "moment_channel_join"
   has_many :transcript_parts, through: :channels
@@ -15,16 +16,28 @@ class Moment < ApplicationRecord
     }
   end
 
-  def audio_url
+  def cached_audio_url
+    return audio_url unless audio_url.nil? or audio_url.empty?
+    audio_server_url
+  end
+
+  def audio_server_url stream=true
     mission_id = 11 # This should come from somewhere
     chans = channels.pluck(:id)
     duration = met_end - met_start
-    url_build = [
-      Rails.application.config_for(:explore_app)["audio_server_url"],
+    base = Rails.application.config_for(:explore_app)["audio_server_url"]
+    path = if stream
+      "/stream"
+    else
+      "/audio"
+    end
+    q_build = [
       "?mission=", mission_id,
       "&channels=", chans.join(","),
       "&start=", met_start,
       "&duration=", duration
-    ].join("")
+    ]
+    q_build.push("&format=mp3") if stream
+    [base, path, *q_build].join("")
   end
 end
