@@ -1,3 +1,5 @@
+**Moved to https://github.com/UTD-CRSS/exploreapollo-api/tree/master/db**
+
 # exploreapollo.org-schema
 Database management for exploreapollo.org
 
