@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160130065316) do
+ActiveRecord::Schema.define(version: 20160130072027) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,11 @@ ActiveRecord::Schema.define(version: 20160130065316) do
     t.text    "name",        null: false
     t.text    "title",       null: false
     t.text    "description"
+  end
+
+  create_table "channels_topics", id: false, force: :cascade do |t|
+    t.integer "channel_id", null: false
+    t.integer "topic_id",   null: false
   end
 
   create_table "migrations", force: :cascade do |t|
@@ -73,6 +78,13 @@ ActiveRecord::Schema.define(version: 20160130065316) do
     t.text     "title",                                       null: false
     t.text     "description"
     t.datetime "created",     default: '2016-01-30 06:43:29'
+  end
+
+  create_table "topics", force: :cascade do |t|
+    t.string   "slug"
+    t.string   "display_name"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "transcript_parts", force: :cascade do |t|
