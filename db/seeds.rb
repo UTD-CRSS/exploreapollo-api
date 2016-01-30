@@ -49,7 +49,8 @@ moment_data = [
 
 # Mission
 mission = Mission.find_or_create_by(
-  slug: "Apollo 11",
+  slug: "apollo_11",
+  title: "Apollo 11",
   start_time: DateTime.parse('1969-07-16 13:32:00+01')
 )
 
@@ -97,7 +98,7 @@ if Rails.env != "production"
     met_end: 735816243
   )
 
-  sp = Speaker.find_or_create_by name: "Speaker"
+  sp = Speaker.find_or_create_by name: "Speaker", title: "title"
 
   tr.speaker = sp
   channel.transcript_parts << tr

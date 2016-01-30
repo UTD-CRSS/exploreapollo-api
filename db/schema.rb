@@ -16,11 +16,21 @@ ActiveRecord::Schema.define(version: 20160130170234) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "audio_cache_items", force: :cascade do |t|
+    t.integer  "channels",   default: [], null: false, array: true
+    t.integer  "met_start",               null: false
+    t.integer  "met_end",                 null: false
+    t.string   "format",                  null: false
+    t.string   "url",                     null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
   create_table "channel_chunks", force: :cascade do |t|
-    t.string   "url"
-    t.string   "slug"
-    t.integer  "met_start"
-    t.integer  "met_end"
+    t.string   "url",        null: false
+    t.string   "slug",       null: false
+    t.integer  "met_start",  null: false
+    t.integer  "met_end",    null: false
     t.integer  "channel_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -28,9 +38,9 @@ ActiveRecord::Schema.define(version: 20160130170234) do
   end
 
   create_table "channels", force: :cascade do |t|
-    t.string   "slug"
-    t.string   "title"
-    t.text     "description"
+    t.string   "slug",        null: false
+    t.string   "title",       null: false
+    t.text     "description", null: false
     t.integer  "mission_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
@@ -45,19 +55,19 @@ ActiveRecord::Schema.define(version: 20160130170234) do
   end
 
   create_table "missions", force: :cascade do |t|
-    t.string   "slug"
-    t.string   "title"
-    t.datetime "start_time"
+    t.string   "slug",       null: false
+    t.string   "title",      null: false
+    t.datetime "start_time", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "moments", force: :cascade do |t|
-    t.string   "slug"
-    t.string   "title"
-    t.text     "description"
-    t.integer  "met_start"
-    t.integer  "met_end"
+    t.string   "slug",        null: false
+    t.string   "title",       null: false
+    t.text     "description", null: false
+    t.integer  "met_start",   null: false
+    t.integer  "met_end",     null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
@@ -70,25 +80,25 @@ ActiveRecord::Schema.define(version: 20160130170234) do
   end
 
   create_table "speakers", force: :cascade do |t|
-    t.string   "name"
-    t.string   "title"
+    t.string   "name",       null: false
+    t.string   "title",      null: false
     t.string   "photo_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "stories", force: :cascade do |t|
-    t.string   "slug"
-    t.string   "title"
-    t.text     "description"
+    t.string   "slug",        null: false
+    t.string   "title",       null: false
+    t.text     "description", null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
 
   create_table "transcript_parts", force: :cascade do |t|
-    t.text     "text"
-    t.integer  "met_start"
-    t.integer  "met_end"
+    t.text     "text",       null: false
+    t.integer  "met_start",  null: false
+    t.integer  "met_end",    null: false
     t.integer  "speaker_id"
     t.integer  "channel_id"
     t.datetime "created_at", null: false
