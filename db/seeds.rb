@@ -6,11 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-# Mission
-mission = Mission.find_or_create_by(
-  slug: "Apollo 11", 
-  start_time: DateTime.parse('1969-07-16 13:32:00+01')
-)
 
 # Channels
 # title, slug, description
@@ -37,48 +32,75 @@ chan_data = [
   ['Mission Operations Directorate Manager', 'MOD', 'Link from the Flight Control Room to top NASA and JSC mission operations directorate management']
 ]
 
+story_data = [
+  ["apollo_launch", "Apollo Launch", "Launch Sequence of Apollo  11 Mission"],
+  ["lunar_landing", "Lunar Landing", "When the lunar module enters the lunar orbit  some interesting, tensed and nail-biting techincal challenges are encountered and are solved."],
+  ["moon_walk", "Moon Surface Walk", "A Walk on the moon"],
+  ["apollo_touchdown", "Apollo Touchdown", "Lunar module's re-entry to earths atmosphere and water landing"]
+]
+
+moment_data = [
+  ["Landing sequence start", "Landing sequence start", "Lunar Landing Sequence Initiated",735673141, 735816243],
+  ["Alarm Solving", "Alarm Solving", "Scientists solving the Alarm Issue",735891591, 735934364],
+  ["Fuel Venting", "Fuel Venting", "Fuel venting for course correction to land at right location on the moon.",736463875, 736624693],
+  ["Final Landing Sequence", "Final Landing Sequence", "Final stages for landing on the moon",736244812, 736344897],
+  ["Alarm", "Alarm", "Instant larm started ringing while starting the lunar landing",735935162, 735998977],
+]
+
+# Mission
+mission = Mission.find_or_create_by(
+  slug: "Apollo 11",
+  start_time: DateTime.parse('1969-07-16 13:32:00+01')
+)
+
 chan_data.each do |item|
   chan = Channel.find_or_create_by title: item[0], slug: item[1], description: item[2]
   chan.mission = mission
   chan.save!
-end  
+end
 
-# Channel Chunks
-channel = Channel.where(slug: "Booster").first
-cc = ChannelChunk.find_or_create_by(
-  met_start: 369300000, 
-  met_end: 370500000, 
-  url: 'https://exploreapollo-data.s3.amazonaws.com/audio/Tape885_20July_20-07-00_HR2U_LunarLanding/19_BOOSTER-R_20July_20-07-00.wav', 
-  slug: '19_BOOSTER-R_20July_20-07-00.wav'
-)
-cc.channel = channel
-cc.save!
+story_data.each do |item|
+  story = Story.find_or_create_by slug: item[0], title: item[1], description: item[2] #, met_start: item[3], met_end: item[4]
+  story.save!
+end
 
-# Create Sory
-story = Story.find_or_create_by slug: "test_story", description: "desc"
+first_story = Story.where(slug: "lunar_landing").first
 
-# Add moments
-moment = Moment.find_or_create_by(
-  slug: "test_moment",
-  description: "desc",
-  met_start: 369300000, 
-  met_end: 370500000
-)
-moment.channels << channel
+moment_data.each do |item|
+  moment = Moment.find_or_create_by slug: item[0], title: item[1], description: item[2], met_start: item[3], met_end: item[4]
+  first_story.moments << moment
+  moment.save!
+end
 
-story.moments << moment
-story.save!
+# Dev data
+if Rails.env != "production"
 
-# TranscriptPart
-tr = TranscriptPart.find_or_create_by(
-  text: "Something said",
-  met_start: 369300000, 
-  met_end: 370500000
-)
+  # Channel Chunks
+  channel = Channel.where(slug: "Booster").first
+  cc = ChannelChunk.find_or_create_by(
+    met_start: 369300000,
+    met_end: 370500000,
+    url: 'https://exploreapollo-data.s3.amazonaws.com/audio/Tape885_20July_20-07-00_HR2U_LunarLanding/19_BOOSTER-R_20July_20-07-00.wav',
+    slug: '19_BOOSTER-R_20July_20-07-00.wav'
+  )
+  cc.channel = channel
+  cc.save!
 
-sp = Speaker.find_or_create_by name: "Speaker"
+  Moment.all.each do |moment|
+    moment.channels << channel
+  end
 
-tr.speaker = sp
-channel.transcript_parts << tr
+  # TranscriptPart
+  tr = TranscriptPart.find_or_create_by(
+    text: "Something said",
+    met_start: 735673141,
+    met_end: 735816243
+  )
 
-tr.save!
+  sp = Speaker.find_or_create_by name: "Speaker"
+
+  tr.speaker = sp
+  channel.transcript_parts << tr
+
+  tr.save!
+end
