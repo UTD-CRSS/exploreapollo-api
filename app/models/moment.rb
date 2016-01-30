@@ -1,7 +1,7 @@
 class Moment < ApplicationRecord
   include AudioCacheable
-	has_and_belongs_to_many :stories, join_table: "moment_story_join"
-  has_and_belongs_to_many :channels, join_table: "moment_channel_join"
+  has_and_belongs_to_many :stories
+  has_and_belongs_to_many :channels
   has_many :transcript_parts, through: :channels
 
   def transcript
