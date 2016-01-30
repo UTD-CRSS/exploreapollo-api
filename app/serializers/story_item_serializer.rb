@@ -1,5 +1,6 @@
 class StoryItemSerializer < ActiveModel::Serializer
-  attributes :id , :created , :description, :name, :title
+  attributes :id, :description, :title
+  attribute :slug, key: :name
 
   attribute :moments, key: :momentList
 end

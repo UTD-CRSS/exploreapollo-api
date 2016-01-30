@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20160130170234) do
 
   create_table "channel_chunks", force: :cascade do |t|
     t.string   "url"
-    t.string   "name"
+    t.string   "slug"
     t.integer  "met_start"
     t.integer  "met_end"
     t.integer  "channel_id"
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 20160130170234) do
   end
 
   create_table "channels", force: :cascade do |t|
-    t.string   "name"
+    t.string   "slug"
     t.string   "title"
     t.text     "description"
     t.integer  "mission_id"
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20160130170234) do
   end
 
   create_table "missions", force: :cascade do |t|
-    t.string   "name"
+    t.string   "slug"
     t.string   "title"
     t.datetime "start_time"
     t.datetime "created_at", null: false
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 20160130170234) do
   end
 
   create_table "moments", force: :cascade do |t|
-    t.string   "name"
+    t.string   "slug"
     t.string   "title"
     t.text     "description"
     t.integer  "met_start"
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 20160130170234) do
   end
 
   create_table "stories", force: :cascade do |t|
-    t.string   "name"
+    t.string   "slug"
     t.string   "title"
     t.text     "description"
     t.datetime "created_at",  null: false
@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(version: 20160130170234) do
   end
 
   create_table "transcript_parts", force: :cascade do |t|
-    t.text     "message"
+    t.text     "text"
     t.integer  "met_start"
     t.integer  "met_end"
     t.integer  "speaker_id"
