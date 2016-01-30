@@ -16,9 +16,17 @@ class Moment < ApplicationRecord
     }
   end
 
-  def cached_audio_url
-    #return audio_url unless audio_url.nil? or audio_url.empty?
-    audio_server_url
+  def audio_attrs
+    audio_attrs = {
+      channels: channels.pluck(:id),
+      met_start: met_start,
+      met_end: met_end,
+      format: "mp4",
+    }
+  end
+
+  def cache_name
+    "moment_#{id}.mp4"
   end
 
   def audio_server_url stream=true

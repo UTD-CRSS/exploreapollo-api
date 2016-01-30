@@ -1,26 +1,40 @@
 require 'open-uri'
 
+
+# Expects audio_attrs and cache_name to be defined
 module AudioCacheable
   extend ActiveSupport::Concern
 
+  def cached_audio_url
+    cache_item = AudioCacheItem.with_audio_attrs(audio_attrs).first
+    if cache_item.nil?
+      cache_item = cache_audio!
+    end
+    cache_item.url
+  rescue => e
+    Rails.logger.error e
+    ""
+  end
+
   def cache_audio!
-    local_path = download_moment_audio
-    remote_path = upload_to_cache local_path
-    update_attribute :audio_url, remote_path
-    Rails.logger.info "Cached audio at #{remote_path}"
-  end
-
-  def cache_name
-    "moment_#{id}.mp4"
-  end
-
-  def download_moment_audio
-    tmp_dir = Rails.root.join("tmp")
-    name = cache_name
-    path = File.join(tmp_dir, name)
     audioUrl = audio_server_url false
-    Rails.logger.info "Downloading #{audioUrl} to #{path}"
-    down = open(audioUrl)
+    local_path = download_url audioUrl
+    remote_path = upload_to_cache local_path
+    chan_ids = channels.pluck(:id)
+    # Add item to cache
+    cache_item = AudioCacheItem.with_audio_attrs(audio_attrs)
+    new_attrs = audio_attrs.merge(url: remote_path)
+    cache_item = cache_item.create new_attrs unless cache_item.exists?
+    ap cache_item
+    Rails.logger.info "Cached audio at #{remote_path}"
+    cache_item
+  end
+
+  def download_url url
+    tmp_dir = Rails.root.join("tmp")
+    path = File.join(tmp_dir, cache_name)
+    Rails.logger.info "Downloading #{url} to #{path}"
+    down = open(url)
     IO.copy_stream(down, path)
     path
   end
