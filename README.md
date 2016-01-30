@@ -2,15 +2,15 @@
 
 ![NASA](./NASA_logo.png?raw=true)
 
-# Development
+## Development
 
 This project requires ruby 2.3
 
-# Setup
+## Setup
 
 bundle install
 
-# API Routes for web server
+## API Routes for web server
 
 endpoint | optional params | method | description
 --- | --- | --- | ---
