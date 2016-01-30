@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20160130065316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,12 +54,12 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   create_table "moments", force: :cascade do |t|
-    t.text     "name",                                                           null: false
-    t.text     "title",                                                          null: false
+    t.text     "name",                                                  null: false
+    t.text     "title",                                                 null: false
     t.text     "description"
-    t.integer  "met_start",   limit: 8,                                          null: false
-    t.integer  "met_end",     limit: 8,                                          null: false
-    t.datetime "created",               default: "now()"
+    t.integer  "met_start",   limit: 8,                                 null: false
+    t.integer  "met_end",     limit: 8,                                 null: false
+    t.datetime "created",               default: '2016-01-30 06:43:29'
   end
 
   create_table "speakers", force: :cascade do |t|
@@ -69,10 +69,10 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   create_table "stories", force: :cascade do |t|
-    t.text     "name",                                                 null: false
-    t.text     "title",                                                null: false
+    t.text     "name",                                        null: false
+    t.text     "title",                                       null: false
     t.text     "description"
-    t.datetime "created",     default: "now()"
+    t.datetime "created",     default: '2016-01-30 06:43:29'
   end
 
   create_table "transcript_parts", force: :cascade do |t|
@@ -89,6 +89,14 @@ ActiveRecord::Schema.define(version: 0) do
     t.text "password"
   end
 
+  create_table "word_counts", force: :cascade do |t|
+    t.integer "met_start"
+    t.integer "met_end"
+    t.integer "count"
+    t.integer "channel_id"
+    t.index ["channel_id"], name: "index_word_counts_on_channel_id", using: :btree
+  end
+
   add_foreign_key "channel_chunks", "channels", column: "channel", name: "channel_chunks_channel_fkey"
   add_foreign_key "channels", "missions", column: "mission", name: "channels_mission_fkey"
   add_foreign_key "moment_channel_join", "channels", name: "moment_channel_join_channel_id_fkey"
@@ -97,4 +105,5 @@ ActiveRecord::Schema.define(version: 0) do
   add_foreign_key "moment_story_join", "stories", name: "moment_story_join_story_id_fkey"
   add_foreign_key "transcript_parts", "channels", name: "transcript_parts_channel_id_fkey"
   add_foreign_key "transcript_parts", "speakers", name: "transcript_parts_speaker_id_fkey"
+  add_foreign_key "word_counts", "channels"
 end

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  met_start: 1
+  met_end: 1
+  count: 1
+  channel: 
+
+two:
+  met_start: 1
+  met_end: 1
+  count: 1
+  channel: 
