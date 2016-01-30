@@ -6,7 +6,7 @@ module AudioCacheable
   extend ActiveSupport::Concern
 
   def cached_audio_url
-    cache_item = AudioCacheItem.with_clip_attrs(audio_attrs).first
+    cache_item = AudioCacheItem.with_audio_attrs(audio_attrs).first
     if cache_item.nil?
       cache_item = cache_audio!
     end
@@ -22,7 +22,7 @@ module AudioCacheable
     remote_path = upload_to_cache local_path
     chan_ids = channels.pluck(:id)
     # Add item to cache
-    cache_item = AudioCacheItem.with_clip_attrs(audio_attrs)
+    cache_item = AudioCacheItem.with_audio_attrs(audio_attrs)
     new_attrs = audio_attrs.merge(url: remote_path)
     cache_item = cache_item.create new_attrs unless cache_item.exists?
     ap cache_item
