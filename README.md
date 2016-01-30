@@ -1,6 +1,6 @@
-## README
+# Apollo Project - API Server
 
-# Apollo Project - API Web Server App
+![NASA](./NASA_logo.png?raw=true)
 
 # Development
 
