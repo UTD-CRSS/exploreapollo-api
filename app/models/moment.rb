@@ -17,7 +17,7 @@ class Moment < ApplicationRecord
   end
 
   def cached_audio_url
-    return audio_url unless audio_url.nil? or audio_url.empty?
+    #return audio_url unless audio_url.nil? or audio_url.empty?
     audio_server_url
   end
 
