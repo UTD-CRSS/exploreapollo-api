@@ -36,7 +36,7 @@ module FriendlyParams
           mem
         end
       end
-      obj_params[k] = new_items
+      obj_params[k] = collection ? new_items : new_items.first
     end
     ap obj_params
     @friendly_params = obj_params
