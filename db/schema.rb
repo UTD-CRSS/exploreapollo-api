@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 20160130235824) do
 
   create_table "audio_chunks", force: :cascade do |t|
     t.string   "url",        null: false
-    t.string   "name",       null: false
+    t.string   "title",      null: false
     t.string   "slug",       null: false
     t.integer  "met_start",  null: false
     t.integer  "met_end",    null: false
