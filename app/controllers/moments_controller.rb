@@ -21,7 +21,7 @@ class MomentsController < ApplicationController
   # POST /moments
   def create
     @moment = Moment.new(moment_params)
-    check_links
+    check_links @moment
     if @moment.save
       render json: @moment, status: :created, location: @moment
     else
@@ -31,7 +31,7 @@ class MomentsController < ApplicationController
 
   # PATCH/PUT /moments/1
   def update
-    check_links
+    check_links @moment
     if @moment.update(moment_params)
       render json: @moment
     else
@@ -45,15 +45,6 @@ class MomentsController < ApplicationController
   end
 
   private
-    def check_links
-      if params.key?("channels")
-        ids = []
-        params["channels"].each do |chan|
-          ids << Channel.friendly.find(chan).id
-        end
-        @moment.channel_ids = ids
-      end
-    end
     # Use callbacks to share common setup or constraints between actions.
     def set_moment
       @moment = Moment.friendly.find(params[:id])
@@ -61,6 +52,6 @@ class MomentsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def moment_params
-      params.require(:moment).permit(:title, :description, :met_start, :met_end, channels: [])
+      params.permit(:title, :description, :met_start, :met_end, channel_ids: [], story_ids: [])
     end
 end
