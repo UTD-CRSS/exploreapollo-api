@@ -7,7 +7,7 @@ module FriendlyParams
 
   def lookup_slugs
     # Calculate param method name from class
-    base_name = self.class.to_s.downcase.gsub("controller","")
+    base_name = self.class.to_s.underscore.gsub("_controller","")
     attr_name = "#{base_name[0..-2]}_params"
     obj_params = self.send(attr_name.to_sym)
     ap obj_params
