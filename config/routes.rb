@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   scope "/api" do
     resources :missions
+    resources :people
     resources :audio_chunks
     resources :channels
     resources :stories

@@ -97,12 +97,14 @@ ActiveRecord::Schema.define(version: 20160130235824) do
     t.index ["story_id", "moment_id"], name: "index_moments_stories_on_story_id_and_moment_id", using: :btree
   end
 
-  create_table "speakers", force: :cascade do |t|
+  create_table "people", force: :cascade do |t|
     t.string   "name",       null: false
     t.string   "title",      null: false
     t.string   "photo_url"
+    t.string   "slug",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_people_on_slug", unique: true, using: :btree
   end
 
   create_table "stories", force: :cascade do |t|
@@ -118,16 +120,16 @@ ActiveRecord::Schema.define(version: 20160130235824) do
     t.text     "text",       null: false
     t.integer  "met_start",  null: false
     t.integer  "met_end",    null: false
-    t.integer  "speaker_id"
+    t.integer  "person_id"
     t.integer  "channel_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["channel_id"], name: "index_transcript_parts_on_channel_id", using: :btree
-    t.index ["speaker_id"], name: "index_transcript_parts_on_speaker_id", using: :btree
+    t.index ["person_id"], name: "index_transcript_parts_on_person_id", using: :btree
   end
 
   add_foreign_key "audio_chunks", "channels"
   add_foreign_key "channels", "missions"
   add_foreign_key "transcript_parts", "channels"
-  add_foreign_key "transcript_parts", "speakers"
+  add_foreign_key "transcript_parts", "people"
 end

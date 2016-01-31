@@ -99,7 +99,7 @@ if Rails.env != "production"
     met_end: 735816243
   )
 
-  sp = Speaker.find_or_create_by name: "Speaker", title: "title"
+  sp = Person.find_or_create_by name: "Speaker", title: "title"
 
   tr.speaker = sp
   channel.transcript_parts << tr

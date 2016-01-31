@@ -4,7 +4,7 @@ class CreateTranscriptParts < ActiveRecord::Migration[5.0]
       t.text :text, null: false
       t.integer :met_start, null: false
       t.integer :met_end, null: false
-      t.belongs_to :speaker, index: true, foreign_key: true
+      t.belongs_to :person, index: true, foreign_key: true
       t.belongs_to :channel, index: true, foreign_key: true
 
       t.timestamps
