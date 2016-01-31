@@ -6,6 +6,7 @@ class CreateMissions < ActiveRecord::Migration[5.0]
       t.timestamp :start_time, null: false
 
       t.timestamps
+      t.index :slug, unique: true
     end
   end
 end

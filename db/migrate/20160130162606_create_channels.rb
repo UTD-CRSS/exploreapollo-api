@@ -7,6 +7,7 @@ class CreateChannels < ActiveRecord::Migration[5.0]
       t.belongs_to :mission, index: true, foreign_key: true
 
       t.timestamps
+      t.index :slug, unique: true
     end
   end
 end

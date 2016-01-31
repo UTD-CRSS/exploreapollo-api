@@ -6,6 +6,7 @@ class CreateStories < ActiveRecord::Migration[5.0]
       t.text :description, null: false
 
       t.timestamps
+      t.index :slug, unique: true
     end
   end
 end

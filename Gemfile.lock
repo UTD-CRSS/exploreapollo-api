@@ -229,6 +229,8 @@ GEM
       fog-core
       nokogiri (~> 1.5, >= 1.5.11)
     formatador (0.2.5)
+    friendly_id (5.1.0)
+      activerecord (>= 4.0.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     hiredis (0.5.2)
@@ -304,6 +306,7 @@ DEPENDENCIES
   awesome_print
   byebug
   fog
+  friendly_id (~> 5.1.0)
   pg (~> 0.18)
   puma
   rack-cors

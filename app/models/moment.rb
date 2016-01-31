@@ -1,5 +1,8 @@
 class Moment < ApplicationRecord
   include AudioCacheable
+  extend FriendlyId
+  friendly_id :title, use: :slugged
+
   has_and_belongs_to_many :stories
   has_and_belongs_to_many :channels
   has_many :transcript_parts, through: :channels

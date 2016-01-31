@@ -49,26 +49,25 @@ moment_data = [
 
 # Mission
 mission = Mission.find_or_create_by(
-  slug: "apollo_11",
   title: "Apollo 11",
   start_time: DateTime.parse('1969-07-16 13:32:00+01')
 )
 
 chan_data.each do |item|
-  chan = Channel.find_or_create_by title: item[0], slug: item[1], description: item[2]
+  chan = Channel.find_or_create_by description: item[2], title: item[1]
   chan.mission = mission
   chan.save!
 end
 
+
 story_data.each do |item|
-  story = Story.find_or_create_by slug: item[0], title: item[1], description: item[2] #, met_start: item[3], met_end: item[4]
+  story = Story.find_or_create_by title: item[1], description: item[2]
   story.save!
 end
-
-first_story = Story.where(slug: "lunar_landing").first
+first_story = Story.friendly.find("apollo-launch")
 
 moment_data.each do |item|
-  moment = Moment.find_or_create_by slug: item[0], title: item[1], description: item[2], met_start: item[3], met_end: item[4]
+  moment = Moment.find_or_create_by title: item[1], description: item[2], met_start: item[3], met_end: item[4]
   first_story.moments << moment
   moment.save!
 end
@@ -77,10 +76,11 @@ end
 if Rails.env != "production"
 
   # Channel Chunks
-  channel = Channel.where(slug: "Booster").first
+  channel = Channel.friendly.find("booster")
   cc = ChannelChunk.find_or_create_by(
     met_start: 369300000,
     met_end: 370500000,
+    name: "Tape885_20July_20-07-00_HR2U_LunarLanding/19_BOOSTER-R_20July_20-07-00.wav",
     url: 'https://exploreapollo-data.s3.amazonaws.com/audio/Tape885_20July_20-07-00_HR2U_LunarLanding/19_BOOSTER-R_20July_20-07-00.wav',
     slug: '19_BOOSTER-R_20July_20-07-00.wav'
   )

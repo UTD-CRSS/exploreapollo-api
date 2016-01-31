@@ -8,6 +8,7 @@ class CreateMoments < ActiveRecord::Migration[5.0]
       t.integer :met_end, null: false
 
       t.timestamps
+      t.index :slug, unique: true
     end
   end
 end
