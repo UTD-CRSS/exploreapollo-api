@@ -1,4 +1,6 @@
 class MomentsController < ApplicationController
+  include FriendlyParams
+
   before_action :set_moment, only: [:show, :update, :destroy, :audio]
 
   # GET /moments
@@ -20,8 +22,7 @@ class MomentsController < ApplicationController
 
   # POST /moments
   def create
-    @moment = Moment.new(moment_params)
-    handle_slugs @moment
+    @moment = Moment.new(@friendly_params)
     if @moment.save
       render json: @moment, status: :created, location: @moment
     else
@@ -31,8 +32,7 @@ class MomentsController < ApplicationController
 
   # PATCH/PUT /moments/1
   def update
-    handle_slugs @moment
-    if @moment.update(moment_params)
+    if @moment.update(@friendly_params)
       render json: @moment
     else
       render json: @moment.errors, status: :unprocessable_entity
@@ -54,4 +54,6 @@ class MomentsController < ApplicationController
     def moment_params
       params.permit(:title, :description, :met_start, :met_end, channel_ids: [], story_ids: [])
     end
+
+    alias_method :allowed_params, :moment_params
 end

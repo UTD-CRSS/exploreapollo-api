@@ -1,14 +1,12 @@
 class Moment < ApplicationRecord
   include AudioCacheable
-  extend FriendlyId
-  friendly_id :title, use: :slugged
+  include FriendlyIdAble
 
   has_and_belongs_to_many :stories
   has_and_belongs_to_many :channels
   has_many :transcript_parts, through: :channels
 
-  validates_presence_of :title, :description, :met_start, :met_end, :slug
-  validates_uniqueness_of :title
+  validates_presence_of :met_start, :met_end
 
   def transcript
     transcript_parts.where(met_start: met_start..met_end)

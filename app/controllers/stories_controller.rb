@@ -1,4 +1,5 @@
 class StoriesController < ApplicationController
+  include FriendlyParams
   before_action :set_story, only: [:show, :update, :destroy]
 
   # GET /stories
@@ -15,8 +16,7 @@ class StoriesController < ApplicationController
 
   # POST /stories
   def create
-    @story = Story.new(story_params)
-
+    @story = Story.new(@friendly_params)
     if @story.save
       render json: @story, status: :created, location: @story
     else
@@ -26,7 +26,7 @@ class StoriesController < ApplicationController
 
   # PATCH/PUT /stories/1
   def update
-    if @story.update(story_params)
+    if @story.update(@friendly_params)
       render json: @story
     else
       render json: @story.errors, status: :unprocessable_entity
@@ -46,6 +46,8 @@ class StoriesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def story_params
-      params.require(:story).permit(:title, :description)
+      params.permit(:title, :description, moment_ids: [])
     end
+
+    alias_method :allowed_params, :story_params
 end
