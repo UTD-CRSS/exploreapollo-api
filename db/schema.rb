@@ -70,11 +70,12 @@ ActiveRecord::Schema.define(version: 20160130235824) do
   end
 
   create_table "missions", force: :cascade do |t|
-    t.string   "slug",       null: false
-    t.string   "title",      null: false
-    t.datetime "start_time", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "slug",        null: false
+    t.string   "title",       null: false
+    t.text     "description", null: false
+    t.datetime "start_time",  null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.index ["slug"], name: "index_missions_on_slug", unique: true, using: :btree
   end
 

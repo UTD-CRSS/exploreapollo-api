@@ -3,6 +3,7 @@ class CreateMissions < ActiveRecord::Migration[5.0]
     create_table :missions do |t|
       t.string :slug, null: false
       t.string :title, null: false
+      t.text :description, null: false
       t.timestamp :start_time, null: false
 
       t.timestamps

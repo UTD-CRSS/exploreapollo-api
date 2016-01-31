@@ -50,6 +50,7 @@ moment_data = [
 # Mission
 mission = Mission.find_or_create_by(
   title: "Apollo 11",
+  description: "The first spaceflight that landed humans on the Moon",
   start_time: DateTime.parse('1969-07-16 13:32:00+01')
 )
 
