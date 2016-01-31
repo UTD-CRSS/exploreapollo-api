@@ -1,6 +1,6 @@
-class CreateChannelChunks < ActiveRecord::Migration[5.0]
+class CreateAudioChunks < ActiveRecord::Migration[5.0]
   def change
-    create_table :channel_chunks do |t|
+    create_table :audio_chunks do |t|
       t.string :url, null: false
       t.string :name, null: false
       t.string :slug, null: false

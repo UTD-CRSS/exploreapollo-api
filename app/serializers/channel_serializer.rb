@@ -3,6 +3,6 @@ class ChannelSerializer < ActiveModel::Serializer
   attribute :friendly_id, key: :name
 
   belongs_to :mission
-  has_many :channel_chunks
+  has_many :audio_chunks
   has_many :transcript_parts
 end

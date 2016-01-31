@@ -1,4 +1,4 @@
-class ChannelChunk < ApplicationRecord
+class AudioChunk < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
 
