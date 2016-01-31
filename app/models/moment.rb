@@ -7,6 +7,9 @@ class Moment < ApplicationRecord
   has_and_belongs_to_many :channels
   has_many :transcript_parts, through: :channels
 
+  validates_presence_of :title, :description, :met_start, :met_end, :slug
+  validates_uniqueness_of :title
+
   def transcript
     transcript_parts.where(met_start: met_start..met_end)
   end
