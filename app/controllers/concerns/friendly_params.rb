@@ -7,8 +7,8 @@ module FriendlyParams
 
   def lookup_slugs
     # Calculate param method name from class
-    base_name = self.class.to_s.underscore.gsub("_controller","")
-    attr_name = "#{base_name[0..-2]}_params"
+    base_name = self.class.to_s.underscore.gsub("_controller","").singularize
+    attr_name = "#{base_name}_params"
     obj_params = self.send(attr_name.to_sym)
     ap obj_params
     # Translate slugs to id for associations
