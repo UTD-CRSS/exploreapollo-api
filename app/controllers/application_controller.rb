@@ -1,11 +1,16 @@
 class ApplicationController < ActionController::API
-   include ActionController::Serialization
+  include ActionController::Serialization
 
-   def default_serializer_options
+  def default_serializer_options
     {root: false}
   end
+
 private
-  def check_links obj
+  def handle_slugs obj
+    # Clear slug here to force regeration
+    obj.slug = nil
+
+    # Translate slugs to id for associations
     collection = [
       "channel",
       "story",

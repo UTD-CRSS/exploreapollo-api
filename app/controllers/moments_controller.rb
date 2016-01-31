@@ -21,7 +21,7 @@ class MomentsController < ApplicationController
   # POST /moments
   def create
     @moment = Moment.new(moment_params)
-    check_links @moment
+    handle_slugs @moment
     if @moment.save
       render json: @moment, status: :created, location: @moment
     else
@@ -31,7 +31,7 @@ class MomentsController < ApplicationController
 
   # PATCH/PUT /moments/1
   def update
-    check_links @moment
+    handle_slugs @moment
     if @moment.update(moment_params)
       render json: @moment
     else
