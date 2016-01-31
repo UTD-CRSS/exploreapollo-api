@@ -54,6 +54,4 @@ class MomentsController < ApplicationController
     def moment_params
       params.permit(:title, :description, :met_start, :met_end, channel_ids: [], story_ids: [])
     end
-
-    alias_method :allowed_params, :moment_params
 end

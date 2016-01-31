@@ -1,4 +1,3 @@
 class Mission < ApplicationRecord
-  extend FriendlyId
-  friendly_id :title, use: :slugged
+  include FriendlyIdAble
 end

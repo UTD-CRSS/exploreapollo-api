@@ -1,6 +1,5 @@
 class AudioChunk < ApplicationRecord
-  extend FriendlyId
-  friendly_id :name, use: :slugged
+  include FriendlyIdAble
 
   belongs_to :channel
 end

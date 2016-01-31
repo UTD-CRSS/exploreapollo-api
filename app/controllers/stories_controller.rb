@@ -48,6 +48,4 @@ class StoriesController < ApplicationController
     def story_params
       params.permit(:title, :description, moment_ids: [])
     end
-
-    alias_method :allowed_params, :story_params
 end

@@ -1,6 +1,7 @@
 class Channel < ApplicationRecord
-  extend FriendlyId
-  friendly_id :title, use: :slugged
+  include FriendlyIdAble
+
+  validates_presence_of :description
 
   belongs_to :mission
   has_and_belongs_to_many :moments

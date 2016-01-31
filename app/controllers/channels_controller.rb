@@ -47,7 +47,6 @@ class ChannelsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def channel_params
-      params.permit(:title, :description, :mission_id, transcript_part_ids: [], channel_chunk_ids:[])
+      params.permit(:title, :description, :mission_id, transcript_part_ids: [], audio_chunk_ids:[])
     end
-    alias_method :allowed_params, :channel_params
 end

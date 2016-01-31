@@ -7,7 +7,7 @@ module FriendlyIdAble
     extend FriendlyId
     friendly_id :title, use: :slugged
 
-    validates_presence_of :title, :description, :slug
+    validates_presence_of :title, :slug
     validates_uniqueness_of :title
 
     # Auto generate slug when title changes

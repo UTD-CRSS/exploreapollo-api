@@ -1,8 +1,7 @@
 class Story < ApplicationRecord
-  extend FriendlyId
-  friendly_id :title, use: :slugged
+  include FriendlyIdAble
 
   has_and_belongs_to_many :moments
 
-  validates_presence_of :title, :description, :slug
+  validates_presence_of :description
 end
