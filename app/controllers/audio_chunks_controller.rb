@@ -1,5 +1,6 @@
 class AudioChunksController < ApplicationController
   include FriendlyParams
+  before_filter :authenticate
   before_action :set_audio_chunk, only: [:show, :update, :destroy]
 
   # GET /audio_chunks

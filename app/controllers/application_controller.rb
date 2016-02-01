@@ -2,7 +2,7 @@ class ApplicationController < ActionController::API
   include ActionController::Serialization
   include ActionController::HttpAuthentication::Token::ControllerMethods
 
-  before_filter :authenticate
+  before_filter :authenticate, except: [:index, :show]
 
   def default_serializer_options
     {root: false}
