@@ -6,7 +6,7 @@ class TranscriptItemsController < ApplicationController
   def index
     @transcript_items = TranscriptItem.all
 
-    render json: @transcript_items
+    render json: @transcript_items, each_serializer: TranscriptSerializer
   end
 
   # GET /transcript_items/1
