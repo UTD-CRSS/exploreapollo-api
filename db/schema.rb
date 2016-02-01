@@ -116,7 +116,7 @@ ActiveRecord::Schema.define(version: 20160130235824) do
     t.index ["slug"], name: "index_stories_on_slug", unique: true, using: :btree
   end
 
-  create_table "transcript_parts", force: :cascade do |t|
+  create_table "transcript_items", force: :cascade do |t|
     t.text     "text",       null: false
     t.integer  "met_start",  null: false
     t.integer  "met_end",    null: false
@@ -124,12 +124,12 @@ ActiveRecord::Schema.define(version: 20160130235824) do
     t.integer  "channel_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["channel_id"], name: "index_transcript_parts_on_channel_id", using: :btree
-    t.index ["person_id"], name: "index_transcript_parts_on_person_id", using: :btree
+    t.index ["channel_id"], name: "index_transcript_items_on_channel_id", using: :btree
+    t.index ["person_id"], name: "index_transcript_items_on_person_id", using: :btree
   end
 
   add_foreign_key "audio_chunks", "channels"
   add_foreign_key "channels", "missions"
-  add_foreign_key "transcript_parts", "channels"
-  add_foreign_key "transcript_parts", "people"
+  add_foreign_key "transcript_items", "channels"
+  add_foreign_key "transcript_items", "people"
 end

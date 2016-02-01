@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :people
     resources :audio_chunks
     resources :channels
+    resources :transcript_items
     resources :stories
 	  resources :transcripts, only: [:index]
 	  resources :moments do

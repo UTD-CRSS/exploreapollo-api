@@ -2,6 +2,8 @@ class Person < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
 
+  has_many :transcript_items
+
   validates_presence_of :name, :title, :slug
   validates_uniqueness_of :name
 

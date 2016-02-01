@@ -1,4 +1,4 @@
-class TranscriptPartSerializer < ActiveModel::Serializer
+class TranscriptSerializer < ActiveModel::Serializer
   attributes :id, :channel_id
 
   attribute :text
@@ -7,6 +7,6 @@ class TranscriptPartSerializer < ActiveModel::Serializer
   attribute :met_end, key: :metEnd
 
   def speaker_name
-    object.speaker.name
+    object.person.name
   end
 end

@@ -5,6 +5,6 @@ class Channel < ApplicationRecord
 
   belongs_to :mission
   has_and_belongs_to_many :moments
-  has_many :transcript_parts
+  has_many :transcript_items
   has_many :audio_chunks
 end

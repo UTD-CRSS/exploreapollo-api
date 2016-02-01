@@ -93,7 +93,7 @@ if Rails.env != "production"
   end
 
   # TranscriptPart
-  tr = TranscriptPart.find_or_create_by(
+  tr = TranscriptItem.find_or_create_by(
     text: "Something said",
     met_start: 735673141,
     met_end: 735816243
@@ -101,8 +101,8 @@ if Rails.env != "production"
 
   sp = Person.find_or_create_by name: "Speaker", title: "title"
 
-  tr.speaker = sp
-  channel.transcript_parts << tr
+  tr.person = sp
+  channel.transcript_items << tr
 
   tr.save!
 end

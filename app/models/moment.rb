@@ -6,12 +6,12 @@ class Moment < ApplicationRecord
 
   has_and_belongs_to_many :stories
   has_and_belongs_to_many :channels
-  has_many :transcript_parts, through: :channels
+  has_many :transcript_items, through: :channels
 
   validates_presence_of :met_start, :met_end
 
   def transcript
-    transcript_parts.where(met_start: met_start..met_end)
+    transcript_items.where(met_start: met_start..met_end)
   end
 
   def mission

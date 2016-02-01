@@ -1,6 +1,6 @@
-class CreateTranscriptParts < ActiveRecord::Migration[5.0]
+class CreateTranscriptItems < ActiveRecord::Migration[5.0]
   def change
-    create_table :transcript_parts do |t|
+    create_table :transcript_items do |t|
       t.text :text, null: false
       t.integer :met_start, null: false
       t.integer :met_end, null: false
