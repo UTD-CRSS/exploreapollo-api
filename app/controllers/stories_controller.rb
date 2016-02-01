@@ -1,7 +1,6 @@
 class StoriesController < ApplicationController
   include FriendlyParams
 
-  skip_before_action :authenticate, only: [:index, :show]
   before_action :set_story, only: [:show, :update, :destroy]
 
   # GET /stories

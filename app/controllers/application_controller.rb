@@ -8,18 +8,11 @@ class ApplicationController < ActionController::API
     {root: false}
   end
 
-  private
+private
 
   def authenticate
-    authenticate_api || respond_unauthorized
-  end
-
-  def authenticate_api
-    authenticate_with_http_token do |token, options|
+    authenticate_or_request_with_http_token do |token, options|
       token.eql?(Rails.application.config_for(:explore_app)["backend_api_key"])
     end
-  end
-  def respond_unauthorized
-    render json: { errors:["Invalid credentials"] }, status: :unauthorized
   end
 end
