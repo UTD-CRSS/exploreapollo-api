@@ -79,8 +79,8 @@ if Rails.env != "production"
   # Channel Chunks
   channel = Channel.friendly.find("booster")
   cc = AudioChunk.find_or_create_by(
-    met_start: 369300000,
-    met_end: 370500000,
+    met_start: 735673141,
+    met_end: 736673141,
     title: "Tape885_20July_20-07-00_HR2U_LunarLanding/19_BOOSTER-R_20July_20-07-00.wav",
     url: 'https://exploreapollo-data.s3.amazonaws.com/audio/Tape885_20July_20-07-00_HR2U_LunarLanding/19_BOOSTER-R_20July_20-07-00.wav',
     slug: '19_BOOSTER-R_20July_20-07-00.wav'
