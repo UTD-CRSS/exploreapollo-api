@@ -8,7 +8,7 @@ class MomentsController < ApplicationController
   def index
     @moments = Moment.all
 
-    render json: @moments
+    render json: @moments, each_serializer: MomentShortSerializer
   end
 
   # GET /moments/1

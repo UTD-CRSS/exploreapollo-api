@@ -3,12 +3,16 @@ class Moment < ApplicationRecord
   include FriendlyIdAble
 
   validates_presence_of :description
+  validates_presence_of :met_start, :met_end
 
   has_and_belongs_to_many :stories
   has_and_belongs_to_many :channels
   has_many :transcript_items, through: :channels
+  has_many :audio_chunks, through: :channels
 
-  validates_presence_of :met_start, :met_end
+  def moment_audio_chunks
+    audio_chunks.where(met_start: met_start..met_end)
+  end
 
   def transcript
     transcript_items.where(met_start: met_start..met_end)
