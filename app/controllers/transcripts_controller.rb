@@ -1,5 +1,5 @@
 class TranscriptsController < ApplicationController
-
+  skip_before_action :authenticate
   # GET /transcripts
   def index
     # Handle all or moments and later channels

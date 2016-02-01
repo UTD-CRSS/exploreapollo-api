@@ -1,6 +1,7 @@
 class MomentsController < ApplicationController
   include FriendlyParams
 
+  skip_before_action :authenticate, only: [:index, :show]
   before_action :set_moment, only: [:show, :update, :destroy, :audio]
 
   # GET /moments
