@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AudioChunkTest < ActiveSupport::TestCase
+class AudioSegmentTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

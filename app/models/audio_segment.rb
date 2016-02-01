@@ -1,4 +1,4 @@
-class AudioChunk < ApplicationRecord
+class AudioSegment < ApplicationRecord
   include FriendlyIdAble
 
   belongs_to :channel

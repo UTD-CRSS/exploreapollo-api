@@ -8,10 +8,10 @@ class Moment < ApplicationRecord
   has_and_belongs_to_many :stories
   has_and_belongs_to_many :channels
   has_many :transcript_items, through: :channels
-  has_many :audio_chunks, through: :channels
+  has_many :audio_segments, through: :channels
 
-  def moment_audio_chunks
-    audio_chunks.where(met_start: met_start..met_end)
+  def moment_audio_segments
+    audio_segments.where(met_start: met_start..met_end)
   end
 
   def transcript

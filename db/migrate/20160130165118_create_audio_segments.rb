@@ -1,6 +1,6 @@
-class CreateAudioChunks < ActiveRecord::Migration[5.0]
+class CreateAudioSegments < ActiveRecord::Migration[5.0]
   def change
-    create_table :audio_chunks do |t|
+    create_table :audio_segments do |t|
       t.string :url, null: false
       t.string :title, null: false
       t.string :slug, null: false

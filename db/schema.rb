@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20160130235824) do
     t.datetime "updated_at",              null: false
   end
 
-  create_table "audio_chunks", force: :cascade do |t|
+  create_table "audio_segments", force: :cascade do |t|
     t.string   "url",        null: false
     t.string   "title",      null: false
     t.string   "slug",       null: false
@@ -35,8 +35,8 @@ ActiveRecord::Schema.define(version: 20160130235824) do
     t.integer  "channel_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["channel_id"], name: "index_audio_chunks_on_channel_id", using: :btree
-    t.index ["slug"], name: "index_audio_chunks_on_slug", unique: true, using: :btree
+    t.index ["channel_id"], name: "index_audio_segments_on_channel_id", using: :btree
+    t.index ["slug"], name: "index_audio_segments_on_slug", unique: true, using: :btree
   end
 
   create_table "channels", force: :cascade do |t|
@@ -128,7 +128,7 @@ ActiveRecord::Schema.define(version: 20160130235824) do
     t.index ["person_id"], name: "index_transcript_items_on_person_id", using: :btree
   end
 
-  add_foreign_key "audio_chunks", "channels"
+  add_foreign_key "audio_segments", "channels"
   add_foreign_key "channels", "missions"
   add_foreign_key "transcript_items", "channels"
   add_foreign_key "transcript_items", "people"

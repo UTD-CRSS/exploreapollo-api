@@ -76,9 +76,9 @@ end
 # Dev data
 if Rails.env != "production"
 
-  # Channel Chunks
+  # Audio Segments
   channel = Channel.friendly.find("booster")
-  cc = AudioChunk.find_or_create_by(
+  cc = AudioSegment.find_or_create_by(
     met_start: 735673141,
     met_end: 736673141,
     title: "Tape885_20July_20-07-00_HR2U_LunarLanding/19_BOOSTER-R_20July_20-07-00.wav",
