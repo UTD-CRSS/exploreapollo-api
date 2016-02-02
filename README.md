@@ -10,6 +10,20 @@ This project requires ruby 2.3
 
 bundle install
 
+## Configuration
+App configuration is located in config/explore_app.yml
+
+ENV vars need to be set in production
+
+| Var | Desc|
+|-----|-----|
+|`DATABASE_URL`|Url of database|
+|`AWS_ACCESS_KEY`|AWS Access|
+|`AWS_SECRET_KEY`|AWS Secret|
+|`CACHE_BUCKET` |Name of the bucket to store cached audio.|
+|`AUDIO_SERVER_URL`|Location of audio server (Without trailing slash).|
+|`BACKEND_API_KEY`| Key used to secure access to backend API. |
+
 ## API Routes for web server
 
 endpoint | optional params | method | description
