@@ -1,5 +1,4 @@
 class TranscriptsController < ApplicationController
-
   # GET /transcripts
   def index
     # Handle all or moments and later channels
@@ -8,14 +7,14 @@ class TranscriptsController < ApplicationController
       moment.nil? ? [] : moment.transcript
     else
       # By default return a handful of items
-      TranscriptPart.limit(100)
+      TranscriptItem.limit(100)
     end
 
     # Result filtering
     if use_filter? && !@transcripts.empty?
       @transcripts = @transcripts.where(met_start: params["start"]..params["end"])
     end
-    render json: @transcripts
+    render json: @transcripts, each_serializer: TranscriptSerializer
   end
 
 

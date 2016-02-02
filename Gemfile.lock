@@ -99,6 +99,7 @@ GEM
       timers (>= 4.1.1)
     celluloid-supervision (0.20.5)
       timers (>= 4.1.1)
+    choice (0.2.0)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.1.x)
@@ -229,6 +230,8 @@ GEM
       fog-core
       nokogiri (~> 1.5, >= 1.5.11)
     formatador (0.2.5)
+    friendly_id (5.1.0)
+      activerecord (>= 4.0.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     hiredis (0.5.2)
@@ -261,6 +264,11 @@ GEM
       activesupport (>= 4.2.0.beta, < 5.0)
       nokogiri (~> 1.6.0)
       rails-deprecated_sanitizer (>= 1.0.1)
+    rails-erd (1.4.5)
+      activerecord (>= 3.2)
+      activesupport (>= 3.2)
+      choice (~> 0.2.0)
+      ruby-graphviz (~> 1.2)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
     rails_12factor (0.0.3)
@@ -274,6 +282,7 @@ GEM
       nokogiri (>= 1.4.1)
       trollop
     redis (3.2.2)
+    ruby-graphviz (1.2.2)
     spring (1.6.2)
     sprockets (3.5.2)
       concurrent-ruby (~> 1.0)
@@ -304,10 +313,12 @@ DEPENDENCIES
   awesome_print
   byebug
   fog
+  friendly_id (~> 5.1.0)
   pg (~> 0.18)
   puma
   rack-cors
   rails!
+  rails-erd
   rails_12factor
   spring
   sucker_punch (~> 2.0)

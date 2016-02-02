@@ -11,90 +11,125 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20160130235824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "channel_chunks", force: :cascade do |t|
-    t.integer "channel",             null: false
-    t.text    "name",                null: false
-    t.text    "url",                 null: false
-    t.integer "met_start", limit: 8, null: false
-    t.integer "met_end",   limit: 8, null: false
+  create_table "audio_cache_items", force: :cascade do |t|
+    t.integer  "channels",   default: [], null: false, array: true
+    t.integer  "met_start",               null: false
+    t.integer  "met_end",                 null: false
+    t.string   "format",                  null: false
+    t.string   "url",                     null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  create_table "audio_segments", force: :cascade do |t|
+    t.string   "url",        null: false
+    t.string   "title",      null: false
+    t.string   "slug",       null: false
+    t.integer  "met_start",  null: false
+    t.integer  "met_end",    null: false
+    t.integer  "channel_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["channel_id"], name: "index_audio_segments_on_channel_id", using: :btree
+    t.index ["slug"], name: "index_audio_segments_on_slug", unique: true, using: :btree
   end
 
   create_table "channels", force: :cascade do |t|
-    t.integer "mission",     null: false
-    t.text    "name",        null: false
-    t.text    "title",       null: false
-    t.text    "description"
+    t.string   "slug",        null: false
+    t.string   "title",       null: false
+    t.text     "description", null: false
+    t.integer  "mission_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["mission_id"], name: "index_channels_on_mission_id", using: :btree
+    t.index ["slug"], name: "index_channels_on_slug", unique: true, using: :btree
   end
 
-  create_table "migrations", force: :cascade do |t|
-    t.string   "name",   limit: 255, null: false
-    t.datetime "run_on",             null: false
+  create_table "channels_moments", id: false, force: :cascade do |t|
+    t.integer "moment_id",  null: false
+    t.integer "channel_id", null: false
+    t.index ["channel_id", "moment_id"], name: "index_channels_moments_on_channel_id_and_moment_id", using: :btree
+    t.index ["moment_id", "channel_id"], name: "index_channels_moments_on_moment_id_and_channel_id", using: :btree
+  end
+
+  create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string   "slug",                      null: false
+    t.integer  "sluggable_id",              null: false
+    t.string   "sluggable_type", limit: 50
+    t.string   "scope"
+    t.datetime "created_at"
+    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, using: :btree
+    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
+    t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
+    t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
   end
 
   create_table "missions", force: :cascade do |t|
-    t.text     "name",           null: false
-    t.text     "title",          null: false
-    t.datetime "met_start_time", null: false
-  end
-
-  create_table "moment_channel_join", force: :cascade do |t|
-    t.integer "moment_id",  null: false
-    t.integer "channel_id", null: false
-  end
-
-  create_table "moment_story_join", force: :cascade do |t|
-    t.integer "moment_id",    null: false
-    t.integer "story_id",     null: false
-    t.integer "moment_order"
+    t.string   "slug",        null: false
+    t.string   "title",       null: false
+    t.text     "description", null: false
+    t.datetime "start_time",  null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["slug"], name: "index_missions_on_slug", unique: true, using: :btree
   end
 
   create_table "moments", force: :cascade do |t|
-    t.text     "name",                                                           null: false
-    t.text     "title",                                                          null: false
-    t.text     "description"
-    t.integer  "met_start",   limit: 8,                                          null: false
-    t.integer  "met_end",     limit: 8,                                          null: false
-    t.datetime "created",               default: "now()"
+    t.string   "slug",        null: false
+    t.string   "title",       null: false
+    t.text     "description", null: false
+    t.integer  "met_start",   null: false
+    t.integer  "met_end",     null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["slug"], name: "index_moments_on_slug", unique: true, using: :btree
   end
 
-  create_table "speakers", force: :cascade do |t|
-    t.text "name",      null: false
-    t.text "title",     null: false
-    t.text "photo_url", null: false
+  create_table "moments_stories", id: false, force: :cascade do |t|
+    t.integer "moment_id", null: false
+    t.integer "story_id",  null: false
+    t.index ["moment_id", "story_id"], name: "index_moments_stories_on_moment_id_and_story_id", using: :btree
+    t.index ["story_id", "moment_id"], name: "index_moments_stories_on_story_id_and_moment_id", using: :btree
+  end
+
+  create_table "people", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.string   "title",      null: false
+    t.string   "photo_url"
+    t.string   "slug",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_people_on_slug", unique: true, using: :btree
   end
 
   create_table "stories", force: :cascade do |t|
-    t.text     "name",                                                 null: false
-    t.text     "title",                                                null: false
-    t.text     "description"
-    t.datetime "created",     default: "now()"
+    t.string   "slug",        null: false
+    t.string   "title",       null: false
+    t.text     "description", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["slug"], name: "index_stories_on_slug", unique: true, using: :btree
   end
 
-  create_table "transcript_parts", force: :cascade do |t|
-    t.text    "message",              null: false
-    t.integer "met_start",  limit: 8, null: false
-    t.integer "met_end",    limit: 8, null: false
-    t.integer "speaker_id",           null: false
-    t.integer "channel_id",           null: false
+  create_table "transcript_items", force: :cascade do |t|
+    t.text     "text",       null: false
+    t.integer  "met_start",  null: false
+    t.integer  "met_end",    null: false
+    t.integer  "person_id"
+    t.integer  "channel_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["channel_id"], name: "index_transcript_items_on_channel_id", using: :btree
+    t.index ["person_id"], name: "index_transcript_items_on_person_id", using: :btree
   end
 
-  create_table "users", force: :cascade do |t|
-    t.text "name"
-    t.text "email"
-    t.text "password"
-  end
-
-  add_foreign_key "channel_chunks", "channels", column: "channel", name: "channel_chunks_channel_fkey"
-  add_foreign_key "channels", "missions", column: "mission", name: "channels_mission_fkey"
-  add_foreign_key "moment_channel_join", "channels", name: "moment_channel_join_channel_id_fkey"
-  add_foreign_key "moment_channel_join", "moments", name: "moment_channel_join_moment_id_fkey"
-  add_foreign_key "moment_story_join", "moments", name: "moment_story_join_moment_id_fkey"
-  add_foreign_key "moment_story_join", "stories", name: "moment_story_join_story_id_fkey"
-  add_foreign_key "transcript_parts", "channels", name: "transcript_parts_channel_id_fkey"
-  add_foreign_key "transcript_parts", "speakers", name: "transcript_parts_speaker_id_fkey"
+  add_foreign_key "audio_segments", "channels"
+  add_foreign_key "channels", "missions"
+  add_foreign_key "transcript_items", "channels"
+  add_foreign_key "transcript_items", "people"
 end
