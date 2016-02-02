@@ -75,9 +75,20 @@ end
 
 # Dev data
 if Rails.env != "production"
+  channel = Channel.friendly.find("booster")
+
+  met_data = {
+    met_start: 735673141,
+    met_end: 736673141,
+    data: { count: 42 }
+  }
+  metric = WordCount.find_by(met_start: met_data[:met_start], met_end: met_data[:met_end])
+  metric = WordCount.create met_data if metric.nil?
+  metric.data = met_data[:data]
+  metric.channel = channel
+  metric.save!
 
   # Audio Segments
-  channel = Channel.friendly.find("booster")
   cc = AudioSegment.find_or_create_by(
     met_start: 735673141,
     met_end: 736673141,
