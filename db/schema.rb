@@ -53,8 +53,8 @@ ActiveRecord::Schema.define(version: 20160130235824) do
   create_table "channels_moments", id: false, force: :cascade do |t|
     t.integer "moment_id",  null: false
     t.integer "channel_id", null: false
-    t.index ["channel_id", "moment_id"], name: "index_channels_moments_on_channel_id_and_moment_id", using: :btree
-    t.index ["moment_id", "channel_id"], name: "index_channels_moments_on_moment_id_and_channel_id", using: :btree
+    t.index ["channel_id", "moment_id"], name: "index_channels_moments_on_channel_id_and_moment_id", unique: true, using: :btree
+    t.index ["moment_id", "channel_id"], name: "index_channels_moments_on_moment_id_and_channel_id", unique: true, using: :btree
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -93,8 +93,8 @@ ActiveRecord::Schema.define(version: 20160130235824) do
   create_table "moments_stories", id: false, force: :cascade do |t|
     t.integer "moment_id", null: false
     t.integer "story_id",  null: false
-    t.index ["moment_id", "story_id"], name: "index_moments_stories_on_moment_id_and_story_id", using: :btree
-    t.index ["story_id", "moment_id"], name: "index_moments_stories_on_story_id_and_moment_id", using: :btree
+    t.index ["moment_id", "story_id"], name: "index_moments_stories_on_moment_id_and_story_id", unique: true, using: :btree
+    t.index ["story_id", "moment_id"], name: "index_moments_stories_on_story_id_and_moment_id", unique: true, using: :btree
   end
 
   create_table "people", force: :cascade do |t|
