@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160130235824) do
+ActiveRecord::Schema.define(version: 20160202055426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "audio_cache_items", force: :cascade do |t|
     t.integer  "channels",   default: [], null: false, array: true
