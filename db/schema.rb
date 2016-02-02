@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160202055426) do
+ActiveRecord::Schema.define(version: 20160202061004) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,18 @@ ActiveRecord::Schema.define(version: 20160202055426) do
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
     t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+  end
+
+  create_table "metrics", force: :cascade do |t|
+    t.string   "type",       null: false
+    t.integer  "met_start",  null: false
+    t.integer  "met_end",    null: false
+    t.hstore   "data",       null: false
+    t.integer  "channel_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["channel_id"], name: "index_metrics_on_channel_id", using: :btree
+    t.index ["data"], name: "index_metrics_on_data", using: :gin
   end
 
   create_table "missions", force: :cascade do |t|
@@ -131,6 +143,7 @@ ActiveRecord::Schema.define(version: 20160202055426) do
 
   add_foreign_key "audio_segments", "channels"
   add_foreign_key "channels", "missions"
+  add_foreign_key "metrics", "channels"
   add_foreign_key "transcript_items", "channels"
   add_foreign_key "transcript_items", "people"
 end
