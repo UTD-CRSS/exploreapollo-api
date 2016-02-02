@@ -4,7 +4,21 @@ class MetricsController < ApplicationController
 
   # GET /metrics
   def index
-    @metrics = Metric.all
+    @metrics = if params.key?("moment_id")
+      moment = Moment.find_by(id: params["moment_id"])
+      moment.nil? ? [] : moment.moment_metrics
+    elsif params.key?("channel_id")
+      channel = Channel.find_by(id: params["channel_id"])
+      channel.nil? ? [] : channel.metrics
+    else
+      # By default return a handful of items
+      Metric.limit(100)
+    end
+
+    # Result filtering
+    if use_filter? && !@metrics.empty?
+      @metrics = @metrics.where(met_start: params["start"]..params["end"])
+    end
 
     render json: @metrics
   end
@@ -48,5 +62,9 @@ class MetricsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def metric_params
       params.require(:metric).permit(:type, :met_start, :met_end, :channel_id, data: [:count])
+    end
+
+    def use_filter?
+      params.key?("start") && params.key?("end")
     end
 end

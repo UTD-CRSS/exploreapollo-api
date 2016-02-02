@@ -9,6 +9,11 @@ class Moment < ApplicationRecord
   has_and_belongs_to_many :channels
   has_many :transcript_items, through: :channels
   has_many :audio_segments, through: :channels
+  has_many :metrics, through: :channels
+
+  def moment_metrics
+    metrics.where(met_start: met_start..met_end)
+  end
 
   def moment_audio_segments
     audio_segments.where(met_start: met_start..met_end)
