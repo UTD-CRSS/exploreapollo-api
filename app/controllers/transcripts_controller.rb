@@ -15,7 +15,7 @@ class TranscriptsController < ApplicationController
 
     # Result filtering
     if use_filter? && !@transcripts.empty?
-      @transcripts = @transcripts.where(met_start: params["start"]..params["end"])
+      @transcripts = @transcripts.where(met_start: params["met_start"]..params["met_end"])
     end
     render json: @transcripts, each_serializer: TranscriptSerializer
   end
@@ -23,6 +23,6 @@ class TranscriptsController < ApplicationController
 
   private
     def use_filter?
-      params.key?("start") && params.key?("end")
+      params.key?("met_start") && params.key?("met_end")
     end
 end

@@ -17,7 +17,7 @@ class MetricsController < ApplicationController
 
     # Result filtering
     if use_filter? && !@metrics.empty?
-      @metrics = @metrics.where(met_start: params["start"]..params["end"])
+      @metrics = @metrics.where(met_start: params["met_start"]..params["met_end"])
     end
 
     render json: @metrics
@@ -65,6 +65,6 @@ class MetricsController < ApplicationController
     end
 
     def use_filter?
-      params.key?("start") && params.key?("end")
+      params.key?("met_start") && params.key?("met_end")
     end
 end
