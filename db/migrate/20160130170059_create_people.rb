@@ -3,7 +3,7 @@ class CreatePeople < ActiveRecord::Migration[5.0]
     create_table :people do |t|
       t.string :name, null: false
       t.string :title, null: false
-      t.string :photo_url
+      t.text :photo_url
       t.string :slug, null: false
 
       t.timestamps

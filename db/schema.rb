@@ -18,24 +18,24 @@ ActiveRecord::Schema.define(version: 20160202061004) do
   enable_extension "hstore"
 
   create_table "audio_cache_items", force: :cascade do |t|
-    t.integer  "channels",   default: [], null: false, array: true
-    t.integer  "met_start",               null: false
-    t.integer  "met_end",                 null: false
-    t.string   "format",                  null: false
-    t.string   "url",                     null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.integer  "channels",             default: [], null: false, array: true
+    t.integer  "met_start",  limit: 8,              null: false
+    t.integer  "met_end",    limit: 8,              null: false
+    t.string   "format",                            null: false
+    t.text     "url",                               null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
   end
 
   create_table "audio_segments", force: :cascade do |t|
-    t.string   "url",        null: false
-    t.string   "title",      null: false
-    t.string   "slug",       null: false
-    t.integer  "met_start",  null: false
-    t.integer  "met_end",    null: false
+    t.text     "url",                  null: false
+    t.string   "title",                null: false
+    t.string   "slug",                 null: false
+    t.integer  "met_start",  limit: 8, null: false
+    t.integer  "met_end",    limit: 8, null: false
     t.integer  "channel_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.index ["channel_id"], name: "index_audio_segments_on_channel_id", using: :btree
     t.index ["slug"], name: "index_audio_segments_on_slug", unique: true, using: :btree
   end
@@ -71,13 +71,13 @@ ActiveRecord::Schema.define(version: 20160202061004) do
   end
 
   create_table "metrics", force: :cascade do |t|
-    t.string   "type",       null: false
-    t.integer  "met_start",  null: false
-    t.integer  "met_end",    null: false
-    t.hstore   "data",       null: false
+    t.string   "type",                 null: false
+    t.integer  "met_start",  limit: 8, null: false
+    t.integer  "met_end",    limit: 8, null: false
+    t.hstore   "data",                 null: false
     t.integer  "channel_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.index ["channel_id"], name: "index_metrics_on_channel_id", using: :btree
     t.index ["data"], name: "index_metrics_on_data", using: :gin
   end
@@ -93,13 +93,13 @@ ActiveRecord::Schema.define(version: 20160202061004) do
   end
 
   create_table "moments", force: :cascade do |t|
-    t.string   "slug",        null: false
-    t.string   "title",       null: false
-    t.text     "description", null: false
-    t.integer  "met_start",   null: false
-    t.integer  "met_end",     null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "slug",                  null: false
+    t.string   "title",                 null: false
+    t.text     "description",           null: false
+    t.integer  "met_start",   limit: 8, null: false
+    t.integer  "met_end",     limit: 8, null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
     t.index ["slug"], name: "index_moments_on_slug", unique: true, using: :btree
   end
 
@@ -113,7 +113,7 @@ ActiveRecord::Schema.define(version: 20160202061004) do
   create_table "people", force: :cascade do |t|
     t.string   "name",       null: false
     t.string   "title",      null: false
-    t.string   "photo_url"
+    t.text     "photo_url"
     t.string   "slug",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -130,13 +130,13 @@ ActiveRecord::Schema.define(version: 20160202061004) do
   end
 
   create_table "transcript_items", force: :cascade do |t|
-    t.text     "text",       null: false
-    t.integer  "met_start",  null: false
-    t.integer  "met_end",    null: false
+    t.text     "text",                 null: false
+    t.integer  "met_start",  limit: 8, null: false
+    t.integer  "met_end",    limit: 8, null: false
     t.integer  "person_id"
     t.integer  "channel_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.index ["channel_id"], name: "index_transcript_items_on_channel_id", using: :btree
     t.index ["person_id"], name: "index_transcript_items_on_person_id", using: :btree
   end
