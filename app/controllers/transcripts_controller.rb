@@ -5,6 +5,9 @@ class TranscriptsController < ApplicationController
     @transcripts = if params.key?("moment_id")
       moment = Moment.find_by(id: params["moment_id"])
       moment.nil? ? [] : moment.transcript
+    elsif params.key?("channel_id")
+      channel = Channel.find_by(id: params["channel_id"])
+      channel.nil? ? [] : channel.transcript_items
     else
       # By default return a handful of items
       TranscriptItem.limit(100)
