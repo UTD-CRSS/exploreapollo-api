@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  media_id: 1
+  media_attachable: 
+  media_attachable_type: Media attachable
+
+two:
+  media_id: 1
+  media_attachable: 
+  media_attachable_type: Media attachable
