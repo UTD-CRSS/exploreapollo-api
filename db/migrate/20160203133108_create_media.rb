@@ -7,6 +7,7 @@ class CreateMedia < ActiveRecord::Migration[5.0]
       t.text :caption
       t.string :alt_text
       t.text :description
+      t.belongs_to :mission, null: false, index: true, foreign_key: true
 
       t.timestamps
       t.index :slug, unique: true
