@@ -1,0 +1,36 @@
+{
+  "name": "exploreapollo-api",
+  "scripts": {
+    "postdeploy": "bundle exec rake db:schema:load"
+  },
+  "env": {
+    "AUDIO_SERVER_URL": {
+      "required": true
+    },
+    "AWS_ACCESS_KEY": {
+      "required": true
+    },
+    "AWS_SECRET_KEY": {
+      "required": true
+    },
+    "BACKEND_API_KEY": {
+      "required": true
+    },
+    "CACHE_BUCKET": {
+      "required": true
+    },
+    "DISABLE_DATABASE_ENVIRONMENT_CHECK": {
+      "required": true
+    },
+    "RACK_ENV": {
+      "required": true
+    },
+    "SECRET_KEY_BASE": {
+      "required": true
+    }
+  },
+  "addons": [
+    "papertrail",
+    "heroku-postgresql"
+  ]
+}
