@@ -88,8 +88,10 @@ ActiveRecord::Schema.define(version: 20160203142632) do
     t.integer  "media_id"
     t.string   "media_attachable_type"
     t.integer  "media_attachable_id"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.integer  "met_start",             limit: 8
+    t.integer  "met_end",               limit: 8
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.index ["media_attachable_type", "media_attachable_id"], name: "media_attachable_type_and_id", using: :btree
     t.index ["media_id"], name: "index_media_attachments_on_media_id", using: :btree
   end
