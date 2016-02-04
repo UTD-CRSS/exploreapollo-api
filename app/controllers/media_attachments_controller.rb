@@ -3,8 +3,11 @@ class MediaAttachmentsController < ApplicationController
 
   # GET /media_attachments
   def index
-    @media_attachments = MediaAttachment.all
-
+    @media_attachments = if params.key?("media_id")
+      MediaAttachment.where media_id: params[:media_id]
+    else
+      MediaAttachment.all
+    end
     render json: @media_attachments
   end
 
