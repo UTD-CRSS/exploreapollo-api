@@ -2,6 +2,8 @@
 
 ![NASA](./NASA_logo.png?raw=true)
 
+[![Code Climate](https://codeclimate.com/github/UTD-CRSS/exploreapollo-api/badges/gpa.svg)](https://codeclimate.com/github/UTD-CRSS/exploreapollo-api)
+
 ## Development
 
 This project requires ruby 2.3
