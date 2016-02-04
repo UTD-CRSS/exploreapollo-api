@@ -85,9 +85,9 @@ ActiveRecord::Schema.define(version: 20160203142632) do
   end
 
   create_table "media_attachments", force: :cascade do |t|
-    t.integer  "media_id"
-    t.string   "media_attachable_type"
-    t.integer  "media_attachable_id"
+    t.integer  "media_id",                        null: false
+    t.string   "media_attachable_type",           null: false
+    t.integer  "media_attachable_id",             null: false
     t.integer  "met_start",             limit: 8
     t.integer  "met_end",               limit: 8
     t.datetime "created_at",                      null: false

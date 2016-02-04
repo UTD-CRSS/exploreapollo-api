@@ -10,6 +10,13 @@ class Moment < ApplicationRecord
   has_many :transcript_items, through: :channels
   has_many :audio_segments, through: :channels
   has_many :metrics, through: :channels
+  has_many :media_attachments, as: :media_attachable, dependent: :destroy
+  has_many :media, through: :media_attachments, dependent: :destroy
+  has_many :channel_media, ->(moment) {where(met_start: moment.met_start..moment.met_end)}, through: :channels, source: :media_attachments
+
+  def all_media_attachments
+    media_attachments + channel_media
+  end
 
   def moment_metrics
     metrics.where(met_start: met_start..met_end)
