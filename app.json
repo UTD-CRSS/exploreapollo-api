@@ -30,7 +30,7 @@
     }
   },
   "addons": [
-    "papertrail",
-    "heroku-postgresql"
+    "heroku-postgresql:hobby-basic",
+    "papertrail:choklad"
   ]
 }
