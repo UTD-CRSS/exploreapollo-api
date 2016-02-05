@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160202061004) do
+ActiveRecord::Schema.define(version: 20160203142632) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,32 @@ ActiveRecord::Schema.define(version: 20160202061004) do
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
     t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+  end
+
+  create_table "media", force: :cascade do |t|
+    t.text     "url",         null: false
+    t.string   "title",       null: false
+    t.string   "slug",        null: false
+    t.text     "caption"
+    t.string   "alt_text"
+    t.text     "description"
+    t.integer  "mission_id",  null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["mission_id"], name: "index_media_on_mission_id", using: :btree
+    t.index ["slug"], name: "index_media_on_slug", unique: true, using: :btree
+  end
+
+  create_table "media_attachments", force: :cascade do |t|
+    t.integer  "media_id",                        null: false
+    t.string   "media_attachable_type",           null: false
+    t.integer  "media_attachable_id",             null: false
+    t.integer  "met_start",             limit: 8
+    t.integer  "met_end",               limit: 8
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.index ["media_attachable_type", "media_attachable_id"], name: "media_attachable_type_and_id", using: :btree
+    t.index ["media_id"], name: "index_media_attachments_on_media_id", using: :btree
   end
 
   create_table "metrics", force: :cascade do |t|
@@ -143,6 +169,8 @@ ActiveRecord::Schema.define(version: 20160202061004) do
 
   add_foreign_key "audio_segments", "channels"
   add_foreign_key "channels", "missions"
+  add_foreign_key "media", "missions"
+  add_foreign_key "media_attachments", "media"
   add_foreign_key "metrics", "channels"
   add_foreign_key "transcript_items", "channels"
   add_foreign_key "transcript_items", "people"
