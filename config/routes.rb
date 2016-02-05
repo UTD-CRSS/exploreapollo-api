@@ -1,14 +1,21 @@
 Rails.application.routes.draw do
 
   scope "/api" do
+    resources :media
+    resources :media_attachments
+    resources :metrics
     resources :missions
     resources :people
     resources :audio_segments
-    resources :channels
+    resources :channels do
+      resources :metrics, only: [:index]
+      resources :transcripts, only: [:index]
+    end
     resources :transcript_items
     resources :stories
 	  resources :transcripts, only: [:index]
 	  resources :moments do
+      resources :metrics, only: [:index]
       resources :transcripts, only: [:index]
       member do
         get :audio, to: :audio

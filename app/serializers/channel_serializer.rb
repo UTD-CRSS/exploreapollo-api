@@ -4,5 +4,5 @@ class ChannelSerializer < ActiveModel::Serializer
 
   belongs_to :mission
   has_many :audio_segments
-  has_many :transcript_parts
+  has_many :transcript_items
 end

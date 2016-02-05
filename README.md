@@ -2,6 +2,8 @@
 
 ![NASA](./NASA_logo.png?raw=true)
 
+[![Code Climate](https://codeclimate.com/github/UTD-CRSS/exploreapollo-api/badges/gpa.svg)](https://codeclimate.com/github/UTD-CRSS/exploreapollo-api)
+
 ## Development
 
 This project requires ruby 2.3
@@ -33,6 +35,23 @@ endpoint | optional params | method | description
 `/api/transcripts` | `start_time` `end_time` `moment_id` | GET | return all transcripts
 `/api/stories` | | GET | return all metadata for all available stories
 `/api/stories/:id` | | GET | return all metadata of story with provided ID
+
+
+## Backend Resources
+
+|Resource|Fields|Associations|
+|------|-------|-------|
+|`missions`|`title` `description` `start_time`||
+|`people`|`name` `title` `photo_url`||
+|`audio_segments`|`title` `url` `met_start` `met_end`|`channel_id`|
+|`channels`|`title` `description`|`transcript_part_ids` `audio_segment_ids`|
+|`transcript_items`|`text` `met_start` `met_end`|`person_id` `channel_id`|
+|`stories`|`title` `description`|`moment_ids`|
+|`moments`|`title` `description` `met_start` `met_end`|`channel_ids` `story_ids`|
+|`metrics`|`type` `met_start` `met_end` `data`|`channel_id`|
+|`media`|`url` `title` `description` `caption` `alt_text`| `mission_id`|
+|`media_attachment`|`media_id` `met_start` `met_end`|`media_attachable_type` `media_attachable_id`|
+
 
 ## Generate ERD Diagram
 

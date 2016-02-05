@@ -6,4 +6,10 @@ class MomentSerializer < ActiveModel::Serializer
   
   attribute :cached_audio_url, key: :audioUrl
   attributes :mission
+  has_many :media, key: :media
+
+  # Lookup media from attachment. Need a better way to do this
+  def media
+     object.all_media_attachments.map {|a| b = a.attributes; b[:media] = a.media; b }
+  end
 end

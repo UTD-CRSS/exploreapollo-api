@@ -4,8 +4,8 @@ class CreateMoments < ActiveRecord::Migration[5.0]
       t.string :slug, null: false
       t.string :title, null: false
       t.text :description, null: false
-      t.integer :met_start, null: false
-      t.integer :met_end, null: false
+      t.integer :met_start, limit: 8, null: false
+      t.integer :met_end, limit: 8, null: false
 
       t.timestamps
       t.index :slug, unique: true

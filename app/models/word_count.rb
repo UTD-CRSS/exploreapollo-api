@@ -1,0 +1,2 @@
+class WordCount < Metric
+end
