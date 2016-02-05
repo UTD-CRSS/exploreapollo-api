@@ -2,6 +2,7 @@
 
 ![NASA](./NASA_logo.png?raw=true)
 
+[![Build Status](https://travis-ci.org/UTD-CRSS/exploreapollo-api.svg?branch=master)](https://travis-ci.org/UTD-CRSS/exploreapollo-api)
 [![Code Climate](https://codeclimate.com/github/UTD-CRSS/exploreapollo-api/badges/gpa.svg)](https://codeclimate.com/github/UTD-CRSS/exploreapollo-api)
 
 ## Development
