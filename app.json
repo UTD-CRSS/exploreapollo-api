@@ -22,6 +22,9 @@
     "DISABLE_DATABASE_ENVIRONMENT_CHECK": {
       "required": true
     },
+    "RAILS_ENV": {
+      "required": true
+    },
     "RACK_ENV": {
       "required": true
     },
