@@ -31,11 +31,7 @@ class Moment < ApplicationRecord
   end
 
   def mission
-    {
-      id: 1,
-      title: "Apollo 11",
-      length: 7.031e8
-    }
+    Mission.first
   end
 
   def audio_attrs
