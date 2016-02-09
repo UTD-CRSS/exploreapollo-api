@@ -5,7 +5,8 @@ class MomentSerializer < ActiveModel::Serializer
   attribute :friendly_id, key: :name
   
   attribute :cached_audio_url, key: :audioUrl
-  attributes :mission
+
+  belongs_to :mission
   has_many :media, key: :media
 
   # Lookup media from attachment. Need a better way to do this
