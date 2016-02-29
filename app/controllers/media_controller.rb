@@ -19,7 +19,7 @@ class MediaController < ApplicationController
     @media = Media.new(@friendly_params)
 
     if @media.save
-      render json: @media, status: :created, location: @media
+      render json: @media, status: :created, location: media_url(@media)
     else
       render json: @media.errors, status: :unprocessable_entity
     end
@@ -47,6 +47,6 @@ class MediaController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def media_params
-      params.permit(:url, :title, :description, :mission_id, :caption, :alt_text)
+      params.permit(:url, :title, :description, :mission_id, :caption, :alt_text, :type)
     end
 end
