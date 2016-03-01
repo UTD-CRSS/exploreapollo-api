@@ -4,7 +4,7 @@ CarrierWave.configure do |config|
     :provider               => 'AWS',
     :aws_access_key_id      => cfg["aws_access_key"],
     :aws_secret_access_key  => cfg["aws_secret_key"],
-    :region                 => 'us-west-2'
+    :region                 => cfg["aws_region"]
   }
   config.fog_directory  = cfg["cache_bucket"]
   config.fog_public     = true
