@@ -45,7 +45,7 @@ module AudioCacheable
       provider: "AWS",
       aws_access_key_id: cfg["aws_access_key"],
       aws_secret_access_key: cfg["aws_secret_key"],
-      region: "us-east-1"
+      region: cfg["aws_region"]
     })
   end
 

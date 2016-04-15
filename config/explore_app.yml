@@ -3,6 +3,7 @@ production:
   audio_server_url: <%= ENV['AUDIO_SERVER_URL'] %>
   aws_access_key: <%= ENV['AWS_ACCESS_KEY'] %>
   aws_secret_key: <%= ENV['AWS_SECRET_KEY'] %>
+  aws_region: <%= ENV['AWS_REGION'] %>
   cache_bucket: <%= ENV['CACHE_BUCKET'] %>
   backend_api_key: <%= ENV['BACKEND_API_KEY'] %>
 
@@ -10,5 +11,6 @@ development:
   audio_server_url: http://localhost:5000
   aws_access_key:
   aws_secret_key:
+  aws_region:
   cache_bucket:
   backend_api_key: exploreapollo

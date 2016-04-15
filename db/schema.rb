@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160203142632) do
+ActiveRecord::Schema.define(version: 20160227003501) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 20160203142632) do
     t.integer  "mission_id",  null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "type"
     t.index ["mission_id"], name: "index_media_on_mission_id", using: :btree
     t.index ["slug"], name: "index_media_on_slug", unique: true, using: :btree
   end
@@ -132,6 +133,7 @@ ActiveRecord::Schema.define(version: 20160203142632) do
   create_table "moments_stories", id: false, force: :cascade do |t|
     t.integer "moment_id", null: false
     t.integer "story_id",  null: false
+    t.integer "order"
     t.index ["moment_id", "story_id"], name: "index_moments_stories_on_moment_id_and_story_id", unique: true, using: :btree
     t.index ["story_id", "moment_id"], name: "index_moments_stories_on_story_id_and_moment_id", unique: true, using: :btree
   end
