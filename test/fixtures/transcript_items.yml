@@ -4,8 +4,17 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-# column: value
+one:
+  text: "Just some test text"
+  met_start: 735673141
+  met_end: 736673191
+
+two:
+  text: "Just some 2test text"
+  met_start: 735673182
+  met_end: 736673191
+
+three:
+  text: "Just some 3test text"
+  met_start: 735674141
+  met_end: 736674191

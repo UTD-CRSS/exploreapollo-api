@@ -1,13 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  type: 
-  met_start: 1
-  met_end: 1
-  data: MyText
-
-two:
-  type: 
-  met_start: 1
-  met_end: 1
-  data: MyText
+#one:
+#  type:
+#  met_start: 1
+#  met_end: 1
+#  data: MyText
+#
+#two:
+#  type:
+#  met_start: 1
+#  met_end: 1
+#  data: MyText

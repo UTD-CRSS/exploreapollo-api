@@ -12,7 +12,15 @@ class TranscriptItemsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create transcript_item" do
     assert_difference('TranscriptItem.count') do
-      post transcript_items_url, params: { transcript_item: {  } }
+      post transcript_items_url,
+        params: {
+            text: "lift off!",
+            met_start: 735673141,
+            met_end: 736673191,
+            person_id: people(:one).id,
+            channel_id: channels(:one).id
+        },
+        headers: {"HTTP_AUTHORIZATION" => "Token token=\"exploreapollo\""}
     end
 
     assert_response 201
