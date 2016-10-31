@@ -43,7 +43,7 @@ endpoint | optional params | method | description
 `/api/transcripts` | `start_time` `end_time` `moment_id` | GET | return all transcripts
 `/api/stories` | | GET | return all metadata for all available stories
 `/api/stories/:id` | | GET | return all metadata of story with provided ID
-
+`/api/transcript_items/search`|`q`|GET|returns transcript items with text containing the string in `q`
 
 ## Backend Resources
 
@@ -59,6 +59,7 @@ endpoint | optional params | method | description
 |`metrics`|`type` `met_start` `met_end` `data`|`channel_id`|
 |`media`|`url` `title` `description` `caption` `alt_text`| `mission_id`|
 |`media_attachment`|`media_id` `met_start` `met_end`|`media_attachable_type` `media_attachable_id`|
+
 
 
 ## Generate ERD Diagram
