@@ -39,6 +39,10 @@ class TranscriptItemsController < ApplicationController
     @transcript_item.destroy
   end
 
+  def search
+    render json: TranscriptItem.ransack(text_cont: params[:q]).result
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_transcript_item
@@ -47,6 +51,6 @@ class TranscriptItemsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def transcript_item_params
-      params.permit(:text, :met_start, :met_end, :person_id, :channel_id)
+      params.permit(:id, :text, :met_start, :met_end, :person_id, :channel_id)
     end
 end

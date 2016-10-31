@@ -8,13 +8,26 @@ one:
   text: "Just some test text"
   met_start: 735673141
   met_end: 736673191
+  person: one
+  channel: one
 
 two:
   text: "Just some 2test text"
   met_start: 735673182
   met_end: 736673191
+  person: one
+  channel: one
 
 three:
   text: "Just some 3test text"
   met_start: 735674141
   met_end: 736674191
+  person: one
+  channel: one
+
+four:
+  text: "SIL"
+  met_start: 735674141
+  met_end: 736674191
+  person: one
+  channel: one
