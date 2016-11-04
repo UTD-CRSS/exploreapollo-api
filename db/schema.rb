@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226215258) do
+ActiveRecord::Schema.define(version: 20160227003501) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 20160226215258) do
     t.integer  "mission_id",  null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "type"
     t.index ["mission_id"], name: "index_media_on_mission_id", using: :btree
     t.index ["slug"], name: "index_media_on_slug", unique: true, using: :btree
   end

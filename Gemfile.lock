@@ -82,6 +82,11 @@ GEM
     awesome_print (1.6.1)
     builder (3.2.2)
     byebug (8.2.1)
+    carrierwave (0.10.0)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      json (>= 1.7)
+      mime-types (>= 1.16)
     celluloid (0.17.3)
       celluloid-essentials
       celluloid-extras
@@ -312,6 +317,7 @@ DEPENDENCIES
   active_model_serializers!
   awesome_print
   byebug
+  carrierwave
   fog
   friendly_id (~> 5.1.0)
   pg (~> 0.18)
