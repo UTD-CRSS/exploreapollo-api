@@ -17,9 +17,7 @@ class MomentsController < ApplicationController
 
   # GET /moments/random
   def random
-    @moment = Moment.order("RANDOM()").first
-    
-    render json: @moment
+    Moment.order("RANDOM()").first
   end
 
   # Redirect to moment audio
