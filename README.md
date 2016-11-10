@@ -13,6 +13,13 @@ This project requires ruby 2.3
 
 bundle install
 
+### Dev setup
+
+1. Copy .env.sample to .env
+2. Fill out the placeholder values
+
+To run the server on port `4060` you could run `source .env && bundle exec rails s -p 4060`
+
 ## Configuration
 App configuration is located in config/explore_app.yml
 
