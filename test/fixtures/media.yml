@@ -1,9 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-  url: MyText
-
-two:
-  title: MyString
-  url: MyText
+  title: "a movie"
+  url: "url for movie"
+  slug: "fake.mp4"
+  mission_id: 1

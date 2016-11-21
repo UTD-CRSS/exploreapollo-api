@@ -11,7 +11,11 @@ Rails.application.routes.draw do
       resources :metrics, only: [:index]
       resources :transcripts, only: [:index]
     end
-    resources :transcript_items
+    resources :transcript_items do
+      collection do
+        match 'search' => 'transcript_items#search', via: [:get, :post], as: :search
+      end
+    end
     resources :stories
 	  resources :transcripts, only: [:index]
 	  resources :moments do
