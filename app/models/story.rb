@@ -8,4 +8,12 @@ class Story < ApplicationRecord
   def ordered_moments
     moments.includes(:moments_stories).order("moments_stories.order")
   end
+
+  def met_start
+    moments.order(:met_start).first.met_start
+  end
+
+  def met_end
+    moments.order(:met_end).last.met_end
+  end
 end
