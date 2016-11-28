@@ -10,10 +10,12 @@ class Story < ApplicationRecord
   end
 
   def met_start
-    moments.order(:met_start).first.met_start
+    ms = moments.order(:met_start).first
+    ms.nil? ? nil : ms.met_start
   end
 
   def met_end
-    moments.order(:met_end).last.met_end
+    ms = moments.order(:met_end).last
+    ms.nil? ? nil : ms.met_end
   end
 end
