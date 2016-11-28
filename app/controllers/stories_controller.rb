@@ -7,7 +7,7 @@ class StoriesController < ApplicationController
   def index
     @stories = Story.all
 
-    render json: @stories
+    render json: @stories, each_serializer: StorySerializer
   end
 
   # GET /stories/1
