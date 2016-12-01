@@ -26,6 +26,7 @@ Rails.application.routes.draw do
       end
       collection do
         get "random"
+        match 'search' => 'moments#search', via: [:get, :post], as: :search
       end
 	  end
 	end
