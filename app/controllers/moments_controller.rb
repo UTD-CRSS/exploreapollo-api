@@ -50,6 +50,10 @@ class MomentsController < ApplicationController
     @moment.destroy
   end
 
+  def search
+    render json: Moment.ransack(text_of_transcript_items_of_channels: params[:q]).result
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_moment

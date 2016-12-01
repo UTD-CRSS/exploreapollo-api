@@ -44,6 +44,10 @@ endpoint | optional params | method | description
 `/api/stories` | | GET | return all metadata for all available stories
 `/api/stories/:id` | | GET | return all metadata of story with provided ID
 `/api/transcript_items/search`|`q`|GET|returns transcript items with text containing the string in `q`
+`/api/moments/search`|`q`|GET|returns moments associated with transcript items with text containing the string in `q`
+
+Feel free to test out with 
+`curl -H "Authorization: Token token=<put token here>" http://localhost:4060/api/moments/search?q=sil`
 
 ## Backend Resources
 
