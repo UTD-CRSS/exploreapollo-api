@@ -80,4 +80,4 @@ test:
 #
 production:
   <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
+  url: <%= ENV['HEROKU_POSTGRESQL_WHITE_URL'] || ENV['DATABASE_URL'] %>
