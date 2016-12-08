@@ -51,7 +51,7 @@ class MomentsController < ApplicationController
   end
 
   def search
-    render json: Moment.ransack(text_of_transcript_items_of_channels: params[:q]).result, each_serializer: MomentShortSerializer
+    render json: Moment.ransack(title_or_description_cont: params[:q]).result, each_serializer: MomentShortSerializer
   end
 
   private
