@@ -11,8 +11,17 @@ class ApplicationController < ActionController::API
 private
 
   def authenticate
-    authenticate_or_request_with_http_token do |token, options|
+    authenticate_token || render_unauthorized
+  end
+  
+  def authenticate_token
+    authenticate_with_http_token do |token, options|
       token.eql?(Rails.application.config_for(:explore_app)["backend_api_key"])
     end
   end
+  
+  def render_unauthorized
+    render json: 'Bad credentials', status: :unauthorized
+  end
+  
 end
