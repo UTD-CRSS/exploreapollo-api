@@ -1,0 +1,2 @@
+class Speakers < Metric
+end

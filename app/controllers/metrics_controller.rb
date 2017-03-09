@@ -61,7 +61,7 @@ class MetricsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def metric_params
-      params.require(:metric).permit(:type, :met_start, :met_end, :channel_id, data: [:count])
+      params.require(:metric).permit(:type, :met_start, :met_end, :channel_id, data: [:count, :names, :matrix])
     end
 
     def use_filter?
