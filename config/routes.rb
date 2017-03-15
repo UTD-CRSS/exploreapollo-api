@@ -6,7 +6,12 @@ Rails.application.routes.draw do
     resources :metrics
     resources :missions
     resources :people
-    resources :audio_segments
+    #resources :audio_segments
+    resources :audio_segments do  
+      collection do
+        match 'search' => 'audio_segments#search', via: [:get, :post], as: :search
+      end
+    end
     resources :channels do
       resources :metrics, only: [:index]
       resources :transcripts, only: [:index]
