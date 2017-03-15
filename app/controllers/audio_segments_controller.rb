@@ -43,7 +43,7 @@ class AudioSegmentsController < ApplicationController
   # GET /audio_segments/search
   def search
     if(params.has_key?(:met_start) and params.has_key?(:met_end))
-      render json: AudioSegment.where("met_start >= ? AND met_start <=?", params[:met_start], params[:met_end])
+      render json: AudioSegment.where("met_end > ? AND met_start < ?", params[:met_start], params[:met_end])
     else
       render json: AudioSegment.all
     end

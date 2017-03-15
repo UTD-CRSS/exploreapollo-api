@@ -42,7 +42,7 @@ class TranscriptItemsController < ApplicationController
   # GET /transcript_items/search
   def search 
     if(params.has_key?(:met_start) and params.has_key?(:met_end))
-      render json: TranscriptItem.where("met_start >= ? AND met_start <=?", params[:met_start], params[:met_end]), each_serializer: TranscriptSerializer
+      render json: TranscriptItem.where("met_end > ? AND met_start < ?", params[:met_start], params[:met_end]), each_serializer: TranscriptSerializer
     else
       render json: TranscriptItem.ransack(text_cont: params[:q]).result
     end
