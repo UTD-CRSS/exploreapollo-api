@@ -14,3 +14,12 @@ development:
   cache_bucket: <%= ENV['CACHE_BUCKET'] %>
   aws_region:
   backend_api_key: exploreapollo
+  
+test:
+  audio_server_url: http://localhost:5000
+  aws_access_key: <%= ENV['AWS_ACCESS_KEY'] %>
+  aws_secret_key: <%= ENV['AWS_SECRET_KEY'] %>
+  cache_bucket: <%= ENV['CACHE_BUCKET'] %>
+  aws_region:
+  backend_api_key: exploreapollo
+  
