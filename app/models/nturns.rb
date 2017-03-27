@@ -1,0 +1,2 @@
+class Nturns < Metric
+end

@@ -1,0 +1,2 @@
+class ConversationCount < Metric
+end
