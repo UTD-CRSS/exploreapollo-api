@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
-ruby "2.3.0"
+ruby "2.7.1"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 #gem 'rails', '>= 5.0.0.beta1.1', '< 5.1'
 gem 'rails', github: "rails/rails", ref: "dbf67b3a6f549769c5f581b70bc0c0d880d5d5d1"
 # Use postgresql as the database for Active Record
-gem 'pg', '~> 0.18'
+gem 'pg', '~> 1.2.3'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.0'
 # Use Puma as the app server
@@ -17,7 +17,7 @@ gem 'active_model_serializers', github: "rails-api/active_model_serializers"
 
 gem 'fog'
 
-gem 'sucker_punch', '~> 2.0'
+gem 'sucker_punch', '~> 2.1.2'
 
 gem 'friendly_id', '~> 5.1.0'
 
@@ -34,6 +34,8 @@ gem 'ransack', '~> 1.8.2'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
+
+gem 'rack', '~> 2.0.9'
 
 gem 'rails_12factor', group: :production
 
