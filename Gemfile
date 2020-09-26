@@ -2,10 +2,11 @@ source 'https://rubygems.org'
 ruby "2.7.1"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-#gem 'rails', '>= 5.0.0.beta1.1', '< 5.1'
+#gem 'rails', '~> 6.0.3'
+#'>= 5.0.0.beta1.1', '< 5.1'
 gem 'rails', github: "rails/rails", ref: "dbf67b3a6f549769c5f581b70bc0c0d880d5d5d1"
 # Use postgresql as the database for Active Record
-gem 'pg', '~> 1.2.3'
+# gem 'pg', '~> 1.2.3'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.0'
 # Use Puma as the app server
@@ -51,6 +52,9 @@ group :development do
   # Pretty DB diagrams
   gem "rails-erd"
 end
-
+group :production do
+  gem 'pg', '1.2.3'
+  gem 'rails_12factor'
+end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
