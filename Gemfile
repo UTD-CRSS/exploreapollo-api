@@ -16,7 +16,7 @@ gem 'awesome_print'
 
 gem 'active_model_serializers', '~> 0.10.0'#, :git => "git://github.com/rails-api/active_model_serializers"
 
-gem 'fog'
+gem 'fog-aws'
 
 gem 'mime-types', '~> 3.3.1'
 
