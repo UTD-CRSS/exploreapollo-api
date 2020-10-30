@@ -1,7 +1,7 @@
 class AudioSegmentsController < ApplicationController
   include FriendlyParams
-  before_filter :authenticate
-  before_action :set_audio_segment, only: [:show, :update, :destroy]
+  #before_filter :authenticate
+  before_action :authenticate, :set_audio_segment, only: [:show, :update, :destroy]
 
   # GET /audio_segments
   def index
