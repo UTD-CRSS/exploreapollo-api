@@ -9,6 +9,23 @@
 
 This project requires ruby 2.7.1
 
+## Postgres Setup
+
+1. Install pg Admin 4 to your local machine.
+2. Install Postgres 9.6 to your local machine
+   - Use default port 5432, or note down your port if you have to change it.
+   - Create a simple root password for 'postgres' account, and remember this
+3. Launch pg Admin 4.
+   - Create connection to 'localhost' using port '5432' (or the port you changed to during installation). Also use user postgres with your root password that you created.
+   - Right click on localhost>Databases on the left, and click Create Database. Name the database 'explore_api_test'.
+   - Right click on localhost>Login/Group Roles, and click Create Login/Group Role. Name the role 'exploreapollo'. Do not assign any privileges or make any other changes to the role.
+4. On pg Admin 4, create a connection to the exploreapollo database using the proper credentials.
+5. Right click on the exploreapollo database under the exploreapollo connection. Click "Backup..." and then save the backup as a SQL file on your local machine.
+6. Look back at your localhost connection, and right click on your explore_api_test database. Click "Restore..." and then select to view SQL files in the bottom right of the prompt. Then select the SQL file you just took as a backup from exploreapollo.
+7. At this point, your explore_api_test should be populated the same as the remote database! You should test any changes on this version with the API running locally before you make any changes to the database! CHANGES TO THE REMOTE DATABASE WILL IMMEDIATELY REFLECT ON THE LIVE WEBSITE.
+
+Note: Please do NOT run the ruby db schema load commands, etc, and simply make any changes using pg Admin.
+
 ## Setup
 
 bundle install
@@ -17,8 +34,13 @@ bundle install
 
 1. Copy .env.sample to .env
 2. Fill out the placeholder values
+3. Add the following lines to your .env file:
+   - export RAILS_ENV=development
+   - export DATABASE_URL=postgres://postgres:pwdyoucreated@localhost:5432/explore_api_test
 
-To run the server on port `4060` you could run: `source .env && bundle exec rails s -p 4060`
+This will ensure that you are using the local database.
+
+To run the server on port `4060` you could run `source .env && bundle exec rails s -p 4060`
 
 ## Configuration
 
