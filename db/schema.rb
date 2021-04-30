@@ -238,8 +238,8 @@ ActiveRecord::Schema.define(version: 2021_04_25_071930) do
     t.string "slug", null: false
     t.integer "met_start", null: false
     t.integer "met_end", null: false
-    t.integer "num_blocks"
-    t.integer "num_nuggets"
+    t.integer "min_block"
+    t.integer "max_block"
     t.bigint "mission_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
