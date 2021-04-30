@@ -19,8 +19,8 @@
 #   ['Booster Engineer', 'Booster', 'Monitors the main engine, Solid Rocket Boosters and External Tank from pre-launch to ascent phases of missions'],
 #   ['Payload Deploy Retrieval System', 'PDRS', 'Monitors operation of the remote manipulator system'],
 #   ['Propulsion Engineer', 'PROP', 'Monitors reaction control and orbital maneuvering propellants'],
-#   ['Guidance, Navigation and Controls System Engineer', 'GNC', 'Monitors vehicle guidance and navigation systems'],
-#   ['Electrical, Environmental and Consumables Manager', 'EECOM', 'Responsible for passive and active thermal controls of the vehicle, cabin atmosphere, supply systems and fire detection'],
+#   ['Guidance, Navigation and Controls System Engineer', 'gnc', 'Monitors vehicle guidance and navigation systems'],
+#   ['Electrical, Environmental and Consumables Manager', 'eecom', 'Responsible for passive and active thermal controls of the vehicle, cabin atmosphere, supply systems and fire detection'],
 #   ['Electrical Generation and Illumination Engineer', 'EGIL', 'Monitors electrical systems'],
 #   ['Instrumentation and Communications Officer', 'INCO', 'Monitors in-flight communications and instrumentation systems'],
 #   ['Russian Interface Operator', 'RIO', 'Liaison between U.S. and Russian Control teams'],
@@ -117,74 +117,305 @@
 
 #   tr.save!
 
-  tapes = [
-    ["T870", "T870", -14558954, -14532287]
-  ]
+tapes = [
+  ["T870","t870", 1, -14558954, -14532287, 1, 2],
+  ["T869", "t869", 1, -14567263, -14538463, 5, 5]
+]
 
-  tapes.each_with_index do |(title, slug, met_start, met_end), index|
-    Tape.find_or_create_by(title: title, slug: slug, met_start: met_start, met_end: met_end)
-  end
+tapes.each_with_index do |(title, slug,missionId, met_start, met_end, minBlock, maxBlock), index|
+  Tape.find_or_create_by(title: title, slug: slug, mission_id: missionId,met_start: met_start, met_end: met_end, min_block: minBlock, max_block: maxBlock)
+end
+
+channels=[
+  ["mocr", "MOCR", "MOCR", 1],
+  ["network", "NETWORK", "NETWORK", 1]
+]
+
+channels.each do |slug, title, description, missionId|
+  Channel.create_or_find_by(slug: slug, title: title, description: description, mission_id: missionId)
+end
+#MultiChannel
+# operation, audioUrl, mission_id, channel_name, block_index, nugget_index, tape_id
+multi_chan = [
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-01.wav", 1, 'mocr', 1, 1, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-02.wav", 1, 'mocr', 1, 2, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-01.wav", 1, "flight", 1, 1, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-02.wav", 1, 'flight', 1, 2, 1],
+
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-03.wav", 1, "flight", 1, 3, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-04.wav", 1, "flight", 1, 4, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-05.wav", 1, "flight", 1, 5, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-06.wav", 1, "flight", 1, 6, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-01.wav", 1, "flight", 2, 1, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-02.wav", 1, "flight", 2, 2, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-03.wav", 1, "flight", 2, 3, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-04.wav", 1, "flight", 2, 4, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-05.wav", 1, "flight", 2, 5, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-06.wav", 1, "flight", 2, 6, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-03.wav", 1, "mocr", 1, 3, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-04.wav", 1, "mocr", 1, 4, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-05.wav", 1, "mocr", 1, 5, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-06.wav", 1, "mocr", 1, 6, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-01.wav", 1, "mocr", 2, 1, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-02.wav", 1, "mocr", 2, 2, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-03.wav", 1, "mocr", 2, 3, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-04.wav", 1, "mocr", 2, 4, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-05.wav", 1, "mocr", 2, 5, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-06.wav", 1, "mocr", 2, 6, 1],
 
 
-  #MultiChannel
-  # operation, audioUrl, mission_id, channel_name, block_index, nugget_index, tape_id
-  multi_chan = [
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-01.wav", 1, 'mocr', 1, 1, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-02.wav", 1, 'mocr', 1, 2, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-01.wav", 1, "flight-director", 1, 1, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-02.wav", 1, 'flight-director', 1, 2, 1],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-05-01.wav", 1, "gnc", 5, 1, 2],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-05-02.wav", 1, "gnc", 5, 2, 2],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-05-03.wav", 1, "gnc", 5, 3, 2],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-05-04.wav", 1, "gnc", 5, 4, 2],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-05-05.wav", 1, "gnc", 5, 5, 2],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-05-06.wav", 1, "gnc", 5, 6, 2],
 
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-03.wav", 1, "flight-director", 1, 3, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-04.wav", 1, "flight-director", 1, 4, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-05.wav", 1, "flight-director", 1, 5, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-06.wav", 1, "flight-director", 1, 6, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-01.wav", 1, "flight-director", 2, 1, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-02.wav", 1, "flight-director", 2, 2, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-03.wav", 1, "flight-director", 2, 3, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-04.wav", 1, "flight-director", 2, 4, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-05.wav", 1, "flight-director", 2, 5, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-06.wav", 1, "flight-director", 2, 6, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-03.wav", 1, "mocr", 1, 3, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-04.wav", 1, "mocr", 1, 4, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-05.wav", 1, "mocr", 1, 5, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-06.wav", 1, "mocr", 1, 6, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-01.wav", 1, "mocr", 2, 1, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-02.wav", 1, "mocr", 2, 2, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-03.wav", 1, "mocr", 2, 3, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-04.wav", 1, "mocr", 2, 4, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-05.wav", 1, "mocr", 2, 5, 1],
-  ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-06.wav", 1, "mocr", 2, 6, 1]
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-07-01.wav", 1, "gnc", 7, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-07-02.wav", 1, "gnc", 7, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-07-03.wav", 1, "gnc", 7, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-07-04.wav", 1, "gnc", 7, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-07-05.wav", 1, "gnc", 7, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-07-06.wav", 1, "gnc", 7, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-08-01.wav", 1, "gnc", 8, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-08-02.wav", 1, "gnc", 8, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-08-03.wav", 1, "gnc", 8, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-08-04.wav", 1, "gnc", 8, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-08-05.wav", 1, "gnc", 8, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-08-06.wav", 1, "gnc", 8, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-09-01.wav", 1, "gnc", 9, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-09-02.wav", 1, "gnc", 9, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-09-03.wav", 1, "gnc", 9, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-09-04.wav", 1, "gnc", 9, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-09-05.wav", 1, "gnc", 9, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-09-06.wav", 1, "gnc", 9, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-10-01.wav", 1, "gnc", 10, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-10-02.wav", 1, "gnc", 10, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-10-03.wav", 1, "gnc", 10, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-10-04.wav", 1, "gnc", 10, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-10-05.wav", 1, "gnc", 10, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-10-06.wav", 1, "gnc", 10, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-11-01.wav", 1, "gnc", 11, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-11-02.wav", 1, "gnc", 11, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-11-03.wav", 1, "gnc", 11, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-11-04.wav", 1, "gnc", 11, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-11-05.wav", 1, "gnc", 11, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-11-06.wav", 1, "gnc", 11, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-12-01.wav", 1, "gnc", 12, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-12-02.wav", 1, "gnc", 12, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-12-03.wav", 1, "gnc", 12, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-12-04.wav", 1, "gnc", 12, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-12-05.wav", 1, "gnc", 12, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-12-06.wav", 1, "gnc", 12, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-13-01.wav", 1, "gnc", 13, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-13-02.wav", 1, "gnc", 13, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-13-03.wav", 1, "gnc", 13, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-13-04.wav", 1, "gnc", 13, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-13-05.wav", 1, "gnc", 13, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-13-06.wav", 1, "gnc", 13, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-14-01.wav", 1, "gnc", 14, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-14-02.wav", 1, "gnc", 14, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-14-03.wav", 1, "gnc", 14, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-14-04.wav", 1, "gnc", 14, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-14-05.wav", 1, "gnc", 14, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-14-06.wav", 1, "gnc", 14, 6, 2],
+
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-05-01.wav", 1, "eecom", 5, 1, 2],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-05-02.wav", 1, "eecom", 5, 2, 2],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-05-03.wav", 1, "eecom", 5, 3, 2],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-05-04.wav", 1, "eecom", 5, 4, 2],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-05-05.wav", 1, "eecom", 5, 5, 2],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-05-06.wav", 1, "eecom", 5, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-06-01.wav", 1, "eecom", 6, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-06-02.wav", 1, "eecom", 6, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-06-03.wav", 1, "eecom", 6, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-06-04.wav", 1, "eecom", 6, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-06-05.wav", 1, "eecom", 6, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-06-06.wav", 1, "eecom", 6, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-07-01.wav", 1, "eecom", 7, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-07-02.wav", 1, "eecom", 7, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-07-03.wav", 1, "eecom", 7, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-07-04.wav", 1, "eecom", 7, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-07-05.wav", 1, "eecom", 7, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-07-06.wav", 1, "eecom", 7, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-08-01.wav", 1, "eecom", 8, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-08-02.wav", 1, "eecom", 8, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-08-03.wav", 1, "eecom", 8, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-08-04.wav", 1, "eecom", 8, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-08-05.wav", 1, "eecom", 8, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-08-06.wav", 1, "eecom", 8, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-09-01.wav", 1, "eecom", 9, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-09-02.wav", 1, "eecom", 9, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-09-03.wav", 1, "eecom", 9, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-09-04.wav", 1, "eecom", 9, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-09-05.wav", 1, "eecom", 9, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-09-06.wav", 1, "eecom", 9, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-10-01.wav", 1, "eecom", 10, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-10-02.wav", 1, "eecom", 10, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-10-03.wav", 1, "eecom", 10, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-10-04.wav", 1, "eecom", 10, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-10-05.wav", 1, "eecom", 10, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-10-06.wav", 1, "eecom", 10, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-11-01.wav", 1, "eecom", 11, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-11-02.wav", 1, "eecom", 11, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-11-03.wav", 1, "eecom", 11, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-11-04.wav", 1, "eecom", 11, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-11-05.wav", 1, "eecom", 11, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-11-06.wav", 1, "eecom", 11, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-12-01.wav", 1, "eecom", 12, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-12-02.wav", 1, "eecom", 12, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-12-03.wav", 1, "eecom", 12, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-12-04.wav", 1, "eecom", 12, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-12-05.wav", 1, "eecom", 12, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-12-06.wav", 1, "eecom", 12, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-13-01.wav", 1, "eecom", 13, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-13-02.wav", 1, "eecom", 13, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-13-03.wav", 1, "eecom", 13, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-13-04.wav", 1, "eecom", 13, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-13-05.wav", 1, "eecom", 13, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-13-06.wav", 1, "eecom", 13, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-14-01.wav", 1, "eecom", 14, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-14-02.wav", 1, "eecom", 14, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-14-03.wav", 1, "eecom", 14, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-14-04.wav", 1, "eecom", 14, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-14-05.wav", 1, "eecom", 14, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-14-06.wav", 1, "eecom", 14, 6, 2],
+
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-05-01.wav", 1, "network", 5, 1, 2],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-05-02.wav", 1, "network", 5, 2, 2],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-05-03.wav", 1, "network", 5, 3, 2],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-05-04.wav", 1, "network", 5, 4, 2],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-05-05.wav", 1, "network", 5, 5, 2],
+["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-05-06.wav", 1, "network", 5, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-06-01.wav", 1, "network", 6, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-06-02.wav", 1, "network", 6, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-06-03.wav", 1, "network", 6, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-06-04.wav", 1, "network", 6, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-06-05.wav", 1, "network", 6, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-06-06.wav", 1, "network", 6, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-07-01.wav", 1, "network", 7, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-07-02.wav", 1, "network", 7, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-07-03.wav", 1, "network", 7, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-07-04.wav", 1, "network", 7, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-07-05.wav", 1, "network", 7, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-07-06.wav", 1, "network", 7, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-08-01.wav", 1, "network", 8, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-08-02.wav", 1, "network", 8, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-08-03.wav", 1, "network", 8, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-08-04.wav", 1, "network", 8, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-08-05.wav", 1, "network", 8, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-08-06.wav", 1, "network", 8, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-09-01.wav", 1, "network", 9, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-09-02.wav", 1, "network", 9, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-09-03.wav", 1, "network", 9, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-09-04.wav", 1, "network", 9, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-09-05.wav", 1, "network", 9, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-09-06.wav", 1, "network", 9, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-10-01.wav", 1, "network", 10, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-10-02.wav", 1, "network", 10, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-10-03.wav", 1, "network", 10, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-10-04.wav", 1, "network", 10, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-10-05.wav", 1, "network", 10, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-10-06.wav", 1, "network", 10, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-11-01.wav", 1, "network", 11, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-11-02.wav", 1, "network", 11, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-11-03.wav", 1, "network", 11, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-11-04.wav", 1, "network", 11, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-11-05.wav", 1, "network", 11, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-11-06.wav", 1, "network", 11, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-12-01.wav", 1, "network", 12, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-12-02.wav", 1, "network", 12, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-12-03.wav", 1, "network", 12, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-12-04.wav", 1, "network", 12, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-12-05.wav", 1, "network", 12, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-12-06.wav", 1, "network", 12, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-13-01.wav", 1, "network", 13, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-13-02.wav", 1, "network", 13, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-13-03.wav", 1, "network", 13, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-13-04.wav", 1, "network", 13, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-13-05.wav", 1, "network", 13, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-13-06.wav", 1, "network", 13, 6, 2],
+
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-14-01.wav", 1, "network", 14, 1, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-14-02.wav", 1, "network", 14, 2, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-14-03.wav", 1, "network", 14, 3, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-14-04.wav", 1, "network", 14, 4, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-14-05.wav", 1, "network", 14, 5, 2],
+# ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-14-06.wav", 1, "network", 14, 6, 2]
 ] 
 
 transcribers=[
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-01.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-02.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-01.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-02.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-01.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-02.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-01.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-02.trs"],
 
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-03.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-04.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-05.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-06.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-01.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-02.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-03.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-04.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-05.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-06.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-03.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-04.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-05.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-06.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-01.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-02.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-03.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-04.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-05.trs"],
-  ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-06.trs"]
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-03.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-04.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-05.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-06.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-01.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-02.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-03.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-04.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-05.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-02-06.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-03.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-04.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-05.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-06.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-01.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-02.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-03.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-04.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-05.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-02-06.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-05-01.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-05-02.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-05-03.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-05-04.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-05-05.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH18_GNC/A11_T869_HR1U_CH18_197-09-32-17_197-17-32-17-05-06.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-05-01.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-05-02.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-05-03.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-05-04.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-05-05.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH17_EECOM/A11_T869_HR1U_CH17_197-09-32-17_197-17-32-17-05-06.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-05-01.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-05-02.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-05-03.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-05-04.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-05-05.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-05-06.json"],
 ]
 
 multi_chan.each_with_index do |(operation, audioUrl, missionId, channelName, blockIndex, nuggetIndex, tape), index|
-  channel = MultiChannel.find_or_create_by(operation: operation, audioUrl: audioUrl, mission_id: missionId, channel_name: channelName, block_index: blockIndex, nugget_index: nuggetIndex, tape_id: tape)
-  Transcriber.find_or_create_by(transcriberUrl: transcribers[index][0], multi_channel_id: channel.id)
+channel = MultiChannel.find_or_create_by(operation: operation, audioUrl: audioUrl, mission_id: missionId, channel_name: channelName, block_index: blockIndex, nugget_index: nuggetIndex, tape_id: tape)
+Transcriber.find_or_create_by(transcriberUrl: transcribers[index][0], multi_channel_id: channel.id)
 end
+

@@ -87,6 +87,7 @@ GEM
     erubi (1.10.0)
     excon (0.80.1)
     ffi (1.15.0)
+    ffi (1.15.0-x64-mingw32)
     fog-aws (3.10.0)
       fog-core (~> 2.1)
       fog-json (~> 1.1)
@@ -134,7 +135,10 @@ GEM
     nokogiri (1.11.3)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
+    nokogiri (1.11.3-x64-mingw32)
+      racc (~> 1.4)
     pg (1.2.3)
+    pg (1.2.3-x64-mingw32)
     polyamorous (2.3.2)
       activerecord (>= 5.2.1)
     pry (0.14.1)
@@ -219,6 +223,7 @@ GEM
 
 PLATFORMS
   ruby
+  x64-mingw32
 
 DEPENDENCIES
   active_model_serializers (~> 0.10.0)
