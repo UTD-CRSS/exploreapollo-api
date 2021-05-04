@@ -6,11 +6,7 @@ Rails.application.routes.draw do
     resources :metrics
     resources :missions
     resources :people
-    resources :audio_segments do  
-      collection do
-        match 'search' => 'audio_segments#search', via: [:get, :post], as: :search
-      end
-    end
+    resources :audio_segments
     resources :channels do
       resources :metrics, only: [:index]
       resources :transcripts, only: [:index]
@@ -33,9 +29,15 @@ Rails.application.routes.draw do
         match 'search' => 'moments#search', via: [:get, :post], as: :search
       end
 	  end
+    resources :tapes
+    resources :multi_channels do
+      resource :transcribers
+    end
 	end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   # Serve websocket cable requests in-process
   # mount ActionCable.server => '/cable'
+
+  root 'stories#index'
 end
