@@ -238,6 +238,7 @@ ActiveRecord::Schema.define(version: 2021_04_25_071930) do
     t.string "slug", null: false
     t.integer "met_start", null: false
     t.integer "met_end", null: false
+    t.string "operation", null: false
     t.integer "min_block"
     t.integer "max_block"
     t.bigint "mission_id"

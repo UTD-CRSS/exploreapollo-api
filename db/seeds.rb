@@ -118,12 +118,12 @@
 #   tr.save!
 
 tapes = [
-  ["T870","t870", 1, -14558954, -14532287, 1, 2],
-  ["T869", "t869", 1, -14567263, -14538463, 5, 5]
+  ["T870","t870", "Lift Off", 1, -14558954, -14532287, 1, 2],
+  ["T869", "t869", "Lift Off", 1, -14567263, -14538463, 5, 5]
 ]
 
-tapes.each_with_index do |(title, slug,missionId, met_start, met_end, minBlock, maxBlock), index|
-  Tape.find_or_create_by(title: title, slug: slug, mission_id: missionId,met_start: met_start, met_end: met_end, min_block: minBlock, max_block: maxBlock)
+tapes.each_with_index do |(title, slug, operation, missionId, met_start, met_end, minBlock, maxBlock), index|
+  Tape.find_or_create_by(title: title, slug: slug, operation: operation, mission_id: missionId,met_start: met_start, met_end: met_end, min_block: minBlock, max_block: maxBlock)
 end
 
 channels=[
@@ -371,7 +371,7 @@ multi_chan = [
 transcribers=[
 ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-01.trs"],
 ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-02.trs"],
-["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-01.trs"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-01.json"],
 ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-02.trs"],
 
 ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-03.trs"],
