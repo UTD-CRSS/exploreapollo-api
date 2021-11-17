@@ -11,7 +11,7 @@ class MissionsController < ApplicationController
 
   # GET /missions/1
   def show
-    render json: @mission
+    render json: Mission.find(params[:id])
   end
 
   # POST /missions

@@ -119,7 +119,9 @@
 
 tapes = [
   ["T870","t870", "Lift Off", 1, -14558954, -14532287, 1, 2],
-  ["T869", "t869", "Lift Off", 1, -14567263, -14538463, 5, 5]
+  ["T869", "t869", "Lift Off", 1, -14567263, -14538463, 5, 5],
+  ["T203", "t203", "Lunar Sighting", 2, -32440140, -31910951, 1, 1],
+  ["T204", "t204", "Lunar Sighting", 2, -32440140, -31910951, 1, 1]
 ]
 
 tapes.each_with_index do |(title, slug, operation, missionId, met_start, met_end, minBlock, maxBlock), index|
@@ -137,6 +139,18 @@ end
 #MultiChannel
 # operation, audioUrl, mission_id, channel_name, block_index, nugget_index, tape_id
 multi_chan = [
+["Lunar_Sighting","https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH07_FD/A08_T203_HR1U_CH07_01.wav",2,"flight",1,1,3],
+["Lunar_Sighting","https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH07_FD/A08_T203_HR1U_CH07_02.wav",2,"flight",1,2,3],
+["Lunar_Sighting","https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH10_NTWK/A08_T203_HR1U_CH10_01.wav",2,"network",1,1,3],
+["Lunar_Sighting","https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH10_NTWK/A08_T203_HR1U_CH10_02.wav",2,"network",1,2,3],
+["Lunar_Sighting","https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH17_EECOM/A08_T203_HR1U_CH17_01.wav",2,"eecom",1,1,3],
+["Lunar_Sighting","https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH17_EECOM/A08_T203_HR1U_CH17_02.wav",2,"eecom",1,2,3],
+["Lunar_Sighting","https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH18_GNC/A08_T203_HR1U_CH18_01.wav",2,"gnc",1,1,3],
+["Lunar_Sighting","https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH18_GNC/A08_T203_HR1U_CH18_02.wav",2,"gnc",1,2,3],
+["Lunar_Sighting","https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T204_HR2U_CH25_MOCR/A08_T204_HR2U_CH25_01.wav",2,"mocr",1,1,4],
+["Lunar_Sighting","https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T204_HR2U_CH25_MOCR/A08_T204_HR2U_CH25_02.wav",2,"mocr",1,2,4],
+["Lunar_Sighting","https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T204_HR2U_CH29_PAO/A08_T204_HR2U_CH29_01.wav",2,"pao",1,1,4],
+["Lunar_Sighting","https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T204_HR2U_CH29_PAO/A08_T204_HR2U_CH29_02.wav",2,"pao",1,2,4],
 ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-01.wav", 1, 'mocr', 1, 1, 1],
 ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-02.wav", 1, 'mocr', 1, 2, 1],
 ["Lift Off", "https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-01.wav", 1, "flight", 1, 1, 1],
@@ -369,6 +383,18 @@ multi_chan = [
 ] 
 
 transcribers=[
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH07_FD/emptyTranscript.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH07_FD/emptyTranscript.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH07_FD/emptyTranscript.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH07_FD/emptyTranscript.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH07_FD/emptyTranscript.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH07_FD/emptyTranscript.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH07_FD/emptyTranscript.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH07_FD/emptyTranscript.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH07_FD/emptyTranscript.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH07_FD/emptyTranscript.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH07_FD/emptyTranscript.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lunar_Sighting/A08_T203_HR1U_CH07_FD/emptyTranscript.json"],
 ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-01.trs"],
 ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH24_MOCR/A11_T870_HR2L_CH24_197-11-50-46_197-19-15-13-01-02.trs"],
 ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T870_HR2L_CH20_FD/A11_T870_HR2L_CH20_197-11-50-46_197-19-15-13-01-01.json"],
@@ -411,7 +437,7 @@ transcribers=[
 ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-05-03.json"],
 ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-05-04.json"],
 ["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-05-05.json"],
-["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-05-06.json"],
+["https://exploreapollo-data.s3.amazonaws.com/audio/Lift_Off/A11_T869_HR1U_CH11_NTWK/A11_T869_HR1U_CH11_197-09-32-17_197-17-32-17-05-06.json"]
 ]
 
 multi_chan.each_with_index do |(operation, audioUrl, missionId, channelName, blockIndex, nuggetIndex, tape), index|
