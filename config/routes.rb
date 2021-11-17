@@ -4,7 +4,13 @@ Rails.application.routes.draw do
     resources :media
     resources :media_attachments
     resources :metrics
-    resources :missions
+    resources :missions do
+      resources :tapes do
+        resources :multi_channels do
+          resource :transcribers
+        end
+      end
+    end
     resources :people
     resources :audio_segments
     resources :channels do
@@ -29,10 +35,6 @@ Rails.application.routes.draw do
         match 'search' => 'moments#search', via: [:get, :post], as: :search
       end
 	  end
-    resources :tapes
-    resources :multi_channels do
-      resource :transcribers
-    end
 	end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
