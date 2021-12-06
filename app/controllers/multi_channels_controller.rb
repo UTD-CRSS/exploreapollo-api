@@ -1,6 +1,7 @@
 class MultiChannelsController < ApplicationController
+    before_action :get_tape
     def index
-        @multi_channels = MultiChannel.all
+        @multi_channels = @tape.multi_channels
     
         # filtering multi_channels using block_index, nugget_index and tape
         filtering_params(params).each do |key, value|
@@ -19,5 +20,9 @@ class MultiChannelsController < ApplicationController
     
     def filtering_params(prams)
         params.slice(:channel, :block, :nugget, :tape)
-    end 
+    end
+
+    def get_tape
+        @tape = Tape.find(params[:tape_id])
+    end
 end
