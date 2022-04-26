@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_25_071930) do
+ActiveRecord::Schema.define(version: 2022_03_15_200352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -189,15 +189,10 @@ ActiveRecord::Schema.define(version: 2021_04_25_071930) do
     t.bigint "met_end", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["slug"], name: "index_moments_on_slug", unique: true
-  end
-
-  create_table "moments_stories", id: false, force: :cascade do |t|
-    t.integer "moment_id", null: false
-    t.integer "story_id", null: false
+    t.bigint "story_id"
     t.integer "order"
-    t.index ["moment_id", "story_id"], name: "index_moments_stories_on_moment_id_and_story_id", unique: true
-    t.index ["story_id", "moment_id"], name: "index_moments_stories_on_story_id_and_moment_id", unique: true
+    t.index ["slug"], name: "index_moments_on_slug", unique: true
+    t.index ["story_id"], name: "index_moments_on_story_id"
   end
 
   create_table "multi_channels", force: :cascade do |t|
@@ -230,6 +225,7 @@ ActiveRecord::Schema.define(version: 2021_04_25_071930) do
     t.text "description", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "mission_id", default: 1
     t.index ["slug"], name: "index_stories_on_slug", unique: true
   end
 
@@ -273,9 +269,11 @@ ActiveRecord::Schema.define(version: 2021_04_25_071930) do
   add_foreign_key "media", "missions"
   add_foreign_key "media_attachments", "media"
   add_foreign_key "metrics", "channels"
+  add_foreign_key "moments", "stories"
   add_foreign_key "multi_channels", "channels", column: "channel_name", primary_key: "slug"
   add_foreign_key "multi_channels", "missions"
   add_foreign_key "multi_channels", "tapes"
+  add_foreign_key "stories", "missions"
   add_foreign_key "tapes", "missions"
   add_foreign_key "transcribers", "multi_channels"
   add_foreign_key "transcript_items", "channels"

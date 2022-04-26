@@ -5,7 +5,7 @@ class Moment < ApplicationRecord
   validates_presence_of :description
   validates_presence_of :met_start, :met_end
 
-  has_and_belongs_to_many :stories
+  belongs_to :stories
   has_and_belongs_to_many :channels
   has_many :transcript_items, through: :channels
   has_many :audio_segments, through: :channels
